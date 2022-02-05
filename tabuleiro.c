@@ -195,7 +195,7 @@ void reset(coord* tabPlayer, coordB* tabBot){
 }
 
 //INCOMPLETA
-void PreencherTabuleiro(coord** tab){
+void PreencherTabuleiro(coord* tab){
 
 	coord* no;
 	no = tab;
@@ -254,49 +254,47 @@ void PreencherTabuleiro(coord** tab){
 		}
 	}
 	
+	printf("AiC-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 	j = j + 1;
 	
 	for(int l = 0; l < 2; l++){
 		while(aux == 0){
 		
-			no = *tab;
+			no = tab;
 			aux = 1;
-
 
 			linha_r[j] = rand()%12;
 			coluna_r[j] = rand()%12;
 			direction[j] = rand()%2;
-			
-			printf("%d %d %d\n",linha_r[j], coluna_r[j], direction[j]);
-			
+		
 			if(direction[j] == 0){
-				while(coluna_r[j] > 8){
+				while(coluna_r[j] > 9){
 					coluna_r[j] = rand()%12;
 				}
 				for(int i = 0; i < coluna_r[j]; i++ ){
 					no = no->e;
 		    		}
-			    	for(int j = 0; j < linha_r[j]; j++ ){
+			    	for(int k = 0; k < linha_r[j]; k++ ){
 			       	 no = no->s;	
 				}
-				for(int k = 0; k < 4; k ++){
+				for(int m = 0; m < 3; m ++){
 					if(no->type != '0')
 						aux = 0;
 					no = no->e;
 				}
 			}
 			else{
-				while(linha_r[j] > 8){
+				while(linha_r[j] > 9){
 			       	linha_r[j] = rand()%12;
 		   		}
 		   		for(int i = 0; i < coluna_r[j]; i++ ){
 					no = no->e;
 		    		}
-			    	for(int j = 0; j < linha_r[j]; j++ ){
+			    	for(int m = 0; m < linha_r[j]; m++ ){
 			       	 no = no->s;	
 				}
 				
-				for(int k = 0; k < 4; k ++){
+				for(int k = 0; k < 3; k ++){
 					if(no->type != '0')
 						aux = 0;
 					no = no->s;
@@ -305,33 +303,36 @@ void PreencherTabuleiro(coord** tab){
 		}
 		
 		if(direction[j] == 0){
-			for(int i = 0; i < 4; i++){
-				no->type = 'a';
+			for(int i = 0; i < 3; i++){
+				no->type = 'd';
 				no->ori = '0';
 				if(i == 0)
-					no->simb = '<';
-				else if(i < 3)
+					no->simb = '>';
+				else if(i < 2)
 					no->simb = '#';
 				else{
-					no->simb = '>';
+					no->simb = '<';
 				}
-				no = no->e;
+				no = no->w;
 			}
 		}
 		else{
-			for(int i = 0; i < 4; i++){
-				no->type = 'a';
+			for(int i = 0; i < 3; i++){
+				no->type = 'd';
 				no->ori = '1';
 				if(i == 0)
-					no->simb = '^';
-				else if(i < 3)
+					no->simb = 'v';
+				else if(i < 2)
 					no->simb = '#';
 				else{
-					no->simb = 'v';
+					no->simb = '^';
 				}
-				no = no->s;
+				no = no->n;
 			}
 		}
+		printf("Des-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
+		j = j + 1;
+		aux = 0;
 	}
 	
 
