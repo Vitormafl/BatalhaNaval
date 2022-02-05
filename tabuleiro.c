@@ -3,10 +3,9 @@
 #include <time.h>
 #include "api.h"
 
-void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
+void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
 	
 	coord *no, *aux;
-	coordB *no2, *aux2;
 	
 	//Inicia o tabuleiro do player
 	for(int l = 0; l < 12; l++){
@@ -20,6 +19,7 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 		if(l == 0){
 			
 			no = (coord*)malloc(sizeof(coord));
+			no->simb_ex = ' ';
 			no->simb = ' ';
 			no->type = '0';
 			no->n = NULL;
@@ -33,6 +33,7 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 			no = no->s;
 			no->n = aux;
 			no->w = NULL;
+			no->simb_ex = ' ';
 			no->simb = ' ';
 			no->type = '0';
 			if(l == 11) no->s = NULL;
@@ -52,6 +53,7 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 				aux = no;
 				no = no->e;
 				no->w = aux;
+				no->simb_ex = ' ';
 				no->simb = ' ';
 				no->type = '0';
 			}
@@ -64,56 +66,56 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 	//Inicia o tabuleiro do bot
 	for(int l = 0; l < 12; l++){
 
-		no2 = *tabBot;
+		no = *tabBot;
 		for(int i = 0; i < l - 1; i++){ 
 		
-			no2 = no2->s;
+			no = no->s;
 		}
 		
 		if(l == 0){
 			
-			no2 = (coordB*)malloc(sizeof(coordB));
-			no2->simb_ex = ' ';
-			no2->simb = ' ';
-			no2->type = '0';
-			no2->n = NULL;
-			no2->w = NULL;
-			*tabBot = no2;
+			no = (coord*)malloc(sizeof(coord));
+			no->simb_ex = ' ';
+			no->simb = ' ';
+			no->type = '0';
+			no->n = NULL;
+			no->w = NULL;
+			*tabBot = no;
 		}
 		else if (l < 12){
 			
-			no2->s = (coordB*)malloc(sizeof(coordB));
-			aux2 = no2;
-			no2 = no2->s;
-			no2->n = aux2;
-			no2->w = NULL;
-			no2->simb = ' ';
-			no2->simb_ex = ' ';
-			no2->type = '0';
-			if(l == 11) no2->s = NULL;
+			no->s = (coord*)malloc(sizeof(coord));
+			aux = no;
+			no = no->s;
+			no->n = aux;
+			no->w = NULL;
+			no->simb = ' ';
+			no->simb_ex = ' ';
+			no->type = '0';
+			if(l == 11) no->s = NULL;
 		}
 			
 		for(int c = 0; c < 11; c++){
 			
-			if(l == 0) no2->n = NULL;
+			if(l == 0) no->n = NULL;
 			else if(c > 0) {
 
-				no2->n = no2->w->n->e;
-				no2->n->s = no2;
+				no->n = no->w->n->e;
+				no->n->s = no;
 			}
 
 			if(c < 11){
 
-				no2->e = (coordB*)malloc(sizeof(coordB));
-				aux2 = no2;
-				no2 = no2->e;
-				no2->w = aux2;
-				no2->simb = ' ';
-				no2->simb_ex = ' ';
-				no2->type = '0';
+				no->e = (coord*)malloc(sizeof(coord));
+				aux = no;
+				no = no->e;
+				no->w = aux;
+				no->simb = ' ';
+				no->simb_ex = ' ';
+				no->type = '0';
 			}
 			else{
-				no2->e = NULL;
+				no->e = NULL;
 			}
 
 		}
@@ -121,10 +123,10 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 }
 
 //Printa o estado atual doo tabuleiro
-void printarTabuleiro(coord* tabPlayer, coordB* tabBot){
+void printarTabuleiro(coord* tabPlayer, coord* tabBot){
 	
 	coord *noP;
-	coordB *noB;
+	coord *noB;
 	
 	printf("      Humano          Computador  \n\n");
 	printf("   ABCDEFGHIJKL      ABCDEFGHIJKL \n");
@@ -161,10 +163,10 @@ void printarTabuleiro(coord* tabPlayer, coordB* tabBot){
 }
 
 //Itera pelos tabuleiros e reinicia os símbolos e embarcações
-void reset(coord* tabPlayer, coordB* tabBot){
+void reset(coord* tabPlayer, coord* tabBot){
 
 	coord* noP;
-	coordB* noB;
+	coord* noB;
 	
 	for(int l = 1; l <= 12; l++){
 
@@ -179,6 +181,7 @@ void reset(coord* tabPlayer, coordB* tabBot){
 		for(int c = 1; c <= 12; c++){
 		
 			noP->simb = ' ';
+			noP->simb_ex = ' ';
 			noP->type = 0;
 			if(c < 12)
 				noP = noP->e;
@@ -186,6 +189,7 @@ void reset(coord* tabPlayer, coordB* tabBot){
 		for(int c2 = 1; c2 <= 12; c2++){
 		
 			noB->simb = ' ';
+			noB->simb_ex = ' ';
 			noB->type = 0;
 			if(c2 < 12)
 				noB = noB->e;
