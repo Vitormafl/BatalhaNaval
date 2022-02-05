@@ -217,17 +217,19 @@ void PreencherTabuleiro(coord* tab){
 			coluna_r[j] = rand()%12;
 	}
 	else{
-        	while(linha_r[j] > 7){
-               	linha_r[j] = rand()%12;
-   		}
+		while(linha_r[j] > 7){
+	       	linha_r[j] = rand()%12;
+		}
    	}
-    
+	
    	for(int i = 0; i < coluna_r[j]; i++ ){
         	no = no->e;
     	}
     	for(int p = 0; p < linha_r[j]; p++ ){
        	no = no->s;
 	}
+	
+	printf("AiC-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 	
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
@@ -257,8 +259,6 @@ void PreencherTabuleiro(coord* tab){
 			no = no->s;
 		}
 	}
-	
-	printf("AiC-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 	j = j + 1;
 	
 	for(int l = 0; l < 2; l++){
@@ -284,7 +284,8 @@ void PreencherTabuleiro(coord* tab){
 				for(int m = 0; m < 3; m ++){
 					if(no->type != '0')
 						aux = 0;
-					no = no->e;
+					if(m != 2)
+						no = no->e;
 				}
 			}
 			else{
@@ -301,10 +302,13 @@ void PreencherTabuleiro(coord* tab){
 				for(int k = 0; k < 3; k ++){
 					if(no->type != '0')
 						aux = 0;
-					no = no->s;
+					if(k != 2)
+						no = no->s;
 				}
 		   	}
 		}
+		
+		printf("Des-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 		
 		if(direction[j] == 0){
 			for(int i = 0; i < 3; i++){
@@ -334,7 +338,7 @@ void PreencherTabuleiro(coord* tab){
 				no = no->n;
 			}
 		}
-		printf("Des-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
+		
 		j = j + 1;
 		aux = 0;
 	}
@@ -362,7 +366,8 @@ void PreencherTabuleiro(coord* tab){
 				for(int m = 0; m < 2; m ++){
 					if(no->type != '0')
 						aux = 0;
-					no = no->e;
+					if(m != 1)
+						no = no->e;
 				}
 			}
 			else{
@@ -379,10 +384,13 @@ void PreencherTabuleiro(coord* tab){
 				for(int k = 0; k < 2; k ++){
 					if(no->type != '0')
 						aux = 0;
-					no = no->s;
+					if(k != 1)
+						no = no->s;
 				}
 		   	}
 		}
+		
+		printf("Pa-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 		
 		if(direction[j] == 0){
 			for(int i = 0; i < 2; i++){
@@ -408,11 +416,9 @@ void PreencherTabuleiro(coord* tab){
 				no = no->n;
 			}
 		}
-		printf("Des-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 		j = j + 1;
 		aux = 0;
 	}
-	
 	for(int l = 0; l < 2; l++){
 		while(aux == 0){
 		
@@ -433,6 +439,7 @@ void PreencherTabuleiro(coord* tab){
 		}
 		no->type = 's';
 		no->simb = '@';
+		printf("sub-linha: %d, coluna: %d, barco n: %d\n",linha_r[j], coluna_r[j],j);
 		j = j + 1;
 		aux = 0; 	
 		}
@@ -452,7 +459,7 @@ void PreencherTabuleiro(coord* tab){
 	}
 	no->type = 'j';
 	no->simb = '&';	
-
+	printf("Jang-linha: %d, coluna: %d, barco n: %d\n",linha_r[j], coluna_r[j], j);
 }
 void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, int* pontP, int* pontB){
 
