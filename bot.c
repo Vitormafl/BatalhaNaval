@@ -3,7 +3,7 @@
 #include <time.h>
 #include "api.h"
 
-void jogada(coord* tabPlayer,int ver, coord** ant){
+void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, int* pontB){
 
 	coord *aux;
 	
@@ -32,14 +32,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->simb = 'O';
 				return;
 			}
-			else if(aux->simb == '@'){
-				aux->simb = '*';
-				return;
-			}
 			else{
 				aux->simb = '*';
 				*ant = aux;
-				return jogada(tabPlayer, 1, ant);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 			}
 		}
 	}
@@ -63,15 +59,11 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->e->simb = 'O';
 				return;
 			}
-			else if(aux->simb == '@'){
-				aux->simb = '*';
-				return;
-			}
 			else{
 				aux->e->simb = '*';
 				*ant = aux->e;
 			
-				return jogada(tabPlayer, 1, ant);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 			}
 		}
 		
@@ -91,14 +83,11 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->w->simb = 'O';
 				return;
 			}
-			else if(aux->simb == '@'){
-				aux->simb = '*';
-				return;
-			}
 			else{
 				aux->w->simb = '*';
 				*ant = aux->w;
-				return jogada(tabPlayer, 1, ant);
+				
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 			}
 		}
 		
@@ -118,14 +107,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->n->simb = 'O';
 				return;
 			}
-			else if(aux->simb == '@'){
-				aux->simb = '*';
-				return;
-			}
 			else{
 				aux->n->simb = '*';
 					*ant = aux->n;
-				return jogada(tabPlayer, 1, ant);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 			}
 		}
 		
@@ -145,14 +130,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->s->simb = 'O';
 				return;
 			}
-			else if(aux->simb == '@'){
-				aux->simb = '*';
-				return;
-			}
 			else{
 				aux->s->simb = '*';
 				*ant = aux->s;
-				return jogada(tabPlayer, 1, ant);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 			}
 		}
 		
@@ -183,14 +164,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 						aux->simb = 'O';
 						return;
 					}
-					else if(aux->simb == '@'){
-						aux->simb = '*';
-						return;
-					}
 					else{
 						aux->simb = '*';
 						*ant = aux;
-						return jogada(tabPlayer, 1, ant);
+						return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 				
 					}
 				}
@@ -220,14 +197,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->simb = 'O';
 				return;
 			}
-			else if(aux->simb == '@'){
-				aux->simb = '*';
-				return;
-			}
 			else{
 				aux->simb = '*';
 				*ant = aux;
-				return jogada(tabPlayer, 1, ant);
+				verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
 			}
 		}
 	}
