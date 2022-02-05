@@ -38,4 +38,6 @@ int input(coordB**);
 
 void reset(coord*, coordB*);
 
+void jogada(coord*,int, coord**);
+
 #endif
