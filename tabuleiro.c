@@ -461,6 +461,46 @@ void PreencherTabuleiro(coord* tab){
 	no->simb = '&';	
 	printf("Jang-linha: %d, coluna: %d, barco n: %d\n",linha_r[j], coluna_r[j], j);
 }
+
+void removerSub(coord* tab)
+{
+    coord *no = tab;
+    int par = 0; int cont = 0;
+    while (no->simb != '@' || cont == 12)
+    {
+        if (par == 0)
+        {
+            no = no->e;
+        }
+
+        else
+        {
+            no = no->w;
+        }
+
+        if (no->e == NULL)
+        {
+            no = no->s; 
+            par = 1; cont += 1;
+        }
+
+        if (no->w == NULL)
+        {
+            no = no->s; 
+            par = 0; cont += 1;
+        }
+    }
+
+    if (no->simb == '@')
+    {
+        no->type = '0';
+        no->simb = ' ';
+        no->simb_ex = ' ';
+    }
+
+    else return;
+}
+
 void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, int* pontP, int* pontB){
 
 	int afundado = 1;
@@ -469,7 +509,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	//Verifica jogada do player
 	if(acertoB == NULL){
 		
-		aux = acerto;;
+		aux = acertoP;
 		if(aux->type == 'j'){
 			aux->simb_ex = aux->simb;
 			*pontB += 1;
@@ -478,7 +518,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 		else if(aux->type == 's'){
 			aux->simb_ex = aux->simb;
 			*pontP += 1;
-			input(tabp, tabB, pontP, pontB);
+			input(tabP, tabB, pontP, pontB);
 		}
 		//Se acertou um navio horizontal
 		else if(aux->ori == 0){
@@ -506,7 +546,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				*pontP += 1;
 
 			}
-			input(tabp, tabB, pontP, pontB);
+			input(tabP, tabB, pontP, pontB);
 		}
 		//Se acertou um navio vertical
 		else{
