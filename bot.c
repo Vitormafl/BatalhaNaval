@@ -28,8 +28,12 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 		
 			if(aux->simb == '*' || aux->simb == 'O')
 				escolhendo = 1;
-			else if(aux->simb != ' '){
+			else if(aux->simb == ' '){
 				aux->simb = 'O';
+				return;
+			}
+			else if(aux->simb == '@'){
+				aux->simb = '*';
 				return;
 			}
 			else{
@@ -59,6 +63,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->e->simb = 'O';
 				return;
 			}
+			else if(aux->simb == '@'){
+				aux->simb = '*';
+				return;
+			}
 			else{
 				aux->e->simb = '*';
 				*ant = aux->e;
@@ -81,6 +89,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 			
 				else if(aux->w->simb == ' '){
 				aux->w->simb = 'O';
+				return;
+			}
+			else if(aux->simb == '@'){
+				aux->simb = '*';
 				return;
 			}
 			else{
@@ -106,6 +118,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				aux->n->simb = 'O';
 				return;
 			}
+			else if(aux->simb == '@'){
+				aux->simb = '*';
+				return;
+			}
 			else{
 				aux->n->simb = '*';
 					*ant = aux->n;
@@ -127,6 +143,10 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 			
 			else if(aux->s->simb == ' '){
 				aux->s->simb = 'O';
+				return;
+			}
+			else if(aux->simb == '@'){
+				aux->simb = '*';
 				return;
 			}
 			else{
@@ -159,8 +179,12 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				else{
 					if(aux->simb == '*' || aux->simb == 'O')
 						escolhendo = 1;
-					else if(aux->simb != ' '){
+					else if(aux->simb == ' '){
 						aux->simb = 'O';
+						return;
+					}
+					else if(aux->simb == '@'){
+						aux->simb = '*';
 						return;
 					}
 					else{
@@ -192,8 +216,12 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 		
 			if(aux->simb == '*' || aux->simb == 'O')
 				escolhendo = 1;
-			else if(aux->simb != ' '){
+			else if(aux->simb == ' '){
 				aux->simb = 'O';
+				return;
+			}
+			else if(aux->simb == '@'){
+				aux->simb = '*';
 				return;
 			}
 			else{
