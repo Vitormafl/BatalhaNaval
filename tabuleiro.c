@@ -198,7 +198,7 @@ void reset(coord* tabPlayer, coordB* tabBot){
 void PreencherTabuleiro(coord** tab){
 
 	coord* no;
-	no = *tab;
+	no = tab;
 
 	int linha_r[9], coluna_r[9], direction[9], aux = 0, j = 0;
 
@@ -221,11 +221,9 @@ void PreencherTabuleiro(coord** tab){
    	for(int i = 0; i < coluna_r[j]; i++ ){
         	no = no->e;
     	}
-    	for(int j = 0; j < linha_r[j]; j++ ){
-       	 no = no->s;
+    	for(int p = 0; p < linha_r[j]; p++ ){
+       	no = no->s;
 	}
-	
-	printf("%d %d %d\n",linha_r[j], coluna_r[j], direction[j]);
 	
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
