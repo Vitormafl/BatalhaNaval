@@ -3,12 +3,12 @@
 #include <time.h>
 #include "api.h"
 
-// 
 void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 	
 	coord *no, *aux;
 	coordB *no2, *aux2;
 	
+	//Inicia o tabuleiro do player
 	for(int l = 0; l < 12; l++){
 
 		no = *tabPlayer;
@@ -61,6 +61,7 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 		}
 	}
 	
+	//Inicia o tabuleiro do bot
 	for(int l = 0; l < 12; l++){
 
 		no2 = *tabBot;
@@ -119,6 +120,7 @@ void iniciarTabuleiro(coord** tabPlayer, coordB** tabBot){
 	}
 }
 
+//Printa o estado atual doo tabuleiro
 void printarTabuleiro(coord* tabPlayer, coordB* tabBot){
 	
 	coord *noP;
@@ -155,195 +157,81 @@ void printarTabuleiro(coord* tabPlayer, coordB* tabBot){
 		printf("+\n");
 		
 	}
-	
-	
 	printf("  +------------+    +------------+\n");
-
-
 }
 
-void PreencherTabuleiro(coord** tab){
-
-	coord* no;
-	no = *tab;
-
-	int linha_r[9], coluna_r[9], direction[9], aux = 0, j = 0;
-
-	srand(time(NULL));
-
-	linha_r[j] = rand()%12;
-	coluna_r[j] = rand()%12;
-	direction[j] = rand()%2;
-	
-	if(direction[j] == 0){
-		while(coluna_r[j] > 7)
-			coluna_r[j] = rand()%12;
-	}
-	else{
-        	while(linha_r[j] > 7){
-               	linha_r[j] = rand()%12;
-   		}
-   	}
-    
-   	for(int i = 0; i < coluna_r[j]; i++ ){
-        	no = no->e;
-    	}
-    	for(int j = 0; j < linha_r[j]; j++ ){
-       	 no = no->s;
-	}
-	
-	printf("%d %d %d\n",linha_r[j], coluna_r[j], direction[j]);
-	
-	if(direction[j] == 0){
-		for(int i = 0; i < 5; i++){
-			no->type = 'a';
-			no->ori = '0';
-			if(i == 0)
-				no->simb = '<';
-			else if(i < 4)
-				no->simb = '#';
-			else{
-				no->simb = '>';
-			}
-			no = no->e;
-		}
-	}
-	else{
-		for(int i = 0; i < 5; i++){
-			no->type = 'a';
-			no->ori = '1';
-			if(i == 0)
-				no->simb = '^';
-			else if(i < 4)
-				no->simb = '#';
-			else{
-				no->simb = 'v';
-			}
-			no = no->s;
-		}
-	}
-	
-	j = j + 1;
-	
-	for(int l = 0; l < 2; l++){
-		while(aux == 0){
-		
-			no = *tab;
-			aux = 1;
-
-
-			linha_r[j] = rand()%12;
-			coluna_r[j] = rand()%12;
-			direction[j] = rand()%2;
-			
-			printf("%d %d %d\n",linha_r[j], coluna_r[j], direction[j]);
-			
-			if(direction[j] == 0){
-				while(coluna_r[j] > 8){
-					coluna_r[j] = rand()%12;
-				}
-				for(int i = 0; i < coluna_r[j]; i++ ){
-					no = no->e;
-		    		}
-			    	for(int j = 0; j < linha_r[j]; j++ ){
-			       	 no = no->s;	
-				}
-				for(int k = 0; k < 4; k ++){
-					if(no->type != '0')
-						aux = 0;
-					no = no->e;
-				}
-			}
-			else{
-				while(linha_r[j] > 8){
-			       	linha_r[j] = rand()%12;
-		   		}
-		   		for(int i = 0; i < coluna_r[j]; i++ ){
-					no = no->e;
-		    		}
-			    	for(int j = 0; j < linha_r[j]; j++ ){
-			       	 no = no->s;	
-				}
-				
-				for(int k = 0; k < 4; k ++){
-					if(no->type != '0')
-						aux = 0;
-					no = no->s;
-				}
-		   	}
-		}
-		
-		if(direction[j] == 0){
-			for(int i = 0; i < 4; i++){
-				no->type = 'a';
-				no->ori = '0';
-				if(i == 0)
-					no->simb = '<';
-				else if(i < 3)
-					no->simb = '#';
-				else{
-					no->simb = '>';
-				}
-				no = no->e;
-			}
-		}
-		else{
-			for(int i = 0; i < 4; i++){
-				no->type = 'a';
-				no->ori = '1';
-				if(i == 0)
-					no->simb = '^';
-				else if(i < 3)
-					no->simb = '#';
-				else{
-					no->simb = 'v';
-				}
-				no = no->s;
-			}
-		}
-	}
-	
-
-}
-
+//Itera pelos tabuleiros e reinicia os símbolos e embarcações
 void reset(coord* tabPlayer, coordB* tabBot){
 
-    coord* noP;
-    coordB* noB;
+	coord* noP;
+	coordB* noB;
+	
+	for(int l = 1; l <= 12; l++){
 
-    for(int l = 1; l <= 12; l++){
-
-        noP = tabPlayer;
-        noB = tabBot;
-
-        for(int l2 = 1; l2 < l; l2++){
-
-            noP = noP->s;
-            noB = noB->s;
-        }
-        for(int c = 1; c <= 12; c++){
-
-            noP->simb = ' ';
-            noP->type = 0;
-            if(c < 12)
-                noP = noP->e;
-        }
-        for(int c2 = 1; c2 <= 12; c2++){
-
-            noB->simb = ' ';
-            noB->type = 0;
-            if(c2 < 12)
-                noB = noB->e;
-        }
-
-    }
+		noP = tabPlayer;
+		noB = tabBot;
+		
+		for(int l2 = 1; l2 < l; l2++){
+		
+			noP = noP->s;
+			noB = noB->s;
+		}
+		for(int c = 1; c <= 12; c++){
+		
+			noP->simb = ' ';
+			noP->type = 0;
+			if(c < 12)
+				noP = noP->e;
+		}
+		for(int c2 = 1; c2 <= 12; c2++){
+		
+			noB->simb = ' ';
+			noB->type = 0;
+			if(c2 < 12)
+				noB = noB->e;
+		}
+		
+	}
 }
 
+//INCOMPLETA
+void PreencherTabuleiro(coord** tab){
+
+    coord* no;
+    no = *tab;
+
+    int linha_r, coluna_r, direction;
+
+    srand(time(NULL));
+
+    linha_r = rand()%12;
+    coluna_r = rand()%12;
+    direction = rand()%2;
+
+    if(direction == 0){
+        while(coluna_r > 7){
+            coluna_r = rand()%12;
+        }
+    }
+    else{
+        while(linha_r > 7){
+            coluna_r = rand()%12;
+    }
+    for(int i = 0; i < coluna_r; i++){
+        no = no->e;
+    }
+    for(int j = 0; j < linha_r; j++){
+        no = no->s;
+	}
+}
+}
+
+//Para testes
 int main(){
 	
 	coord *tabP = NULL; 
 	coordB *tabB = NULL;
 	iniciarTabuleiro(&tabP, &tabB);
-	PreencherTabuleiro(&tabP);
 	printarTabuleiro(tabP, tabB);
 }
+

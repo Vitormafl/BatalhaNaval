@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "api.h"
 
-int input(coord** tabPlayer){
+int input(coordB* tabBot)
+{
     char input[5]; char coordenadas[2];
 
     scanf("%s", &input);
@@ -14,13 +15,30 @@ int input(coord** tabPlayer){
             if (int(input[i]) >= 77) return 0; 
             coordenadas[0] = input[i];
         }
-        
+
         if (isdigit(input[i])) 
         {
             if (input[i] < 1 or input[i] > 12) return 0; 
             coordenadas[1] = input[i];
         }
     }
+
+    for (int i = 0; i < int(coordenadas[0]); i++)
+    {
+        noh = noh->e;
+    }
+
+    for (int i = 0; i < coordenadas[1]; i++)
+    {
+        noh = noh->s;
+    }
+
+    if (noh->type != '0')
+    {
+        noh->simb = '*';
+    }
+
+    else noh->simb = '0';
 
     return 1;
 }

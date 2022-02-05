@@ -32,10 +32,10 @@ void iniciarTabuleiro(coord**, coordB**);
 
 void printarTabuleiro(coord*, coordB*);
 
-void PreencherTabuleiro(coord** tab);
+void PreencherTabuleiro(coord**);
 
-int input(coordB** );
+int input(coordB**);
 
-void reset(coord* , coordB* );
+void reset(coord*, coordB*);
 
 #endif
