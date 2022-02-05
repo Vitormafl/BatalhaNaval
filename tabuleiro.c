@@ -227,7 +227,7 @@ void PreencherTabuleiro(coord* tab){
 	
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
-			no->type = 'a';
+			no->type = 'p';
 			no->ori = '0';
 			if(i == 0)
 				no->simb = '<';
@@ -241,7 +241,7 @@ void PreencherTabuleiro(coord* tab){
 	}
 	else{
 		for(int i = 0; i < 5; i++){
-			no->type = 'a';
+			no->type = 'p';
 			no->ori = '1';
 			if(i == 0)
 				no->simb = '^';
@@ -335,6 +335,119 @@ void PreencherTabuleiro(coord* tab){
 		aux = 0;
 	}
 	
+	for(int l = 0; l < 3; l++){
+		while(aux == 0){
+		
+			no = tab;
+			aux = 1;
+
+			linha_r[j] = rand()%12;
+			coluna_r[j] = rand()%12;
+			direction[j] = rand()%2;
+		
+			if(direction[j] == 0){
+				while(coluna_r[j] > 10){
+					coluna_r[j] = rand()%12;
+				}
+				for(int i = 0; i < coluna_r[j]; i++ ){
+					no = no->e;
+		    		}
+			    	for(int k = 0; k < linha_r[j]; k++ ){
+			       	 no = no->s;	
+				}
+				for(int m = 0; m < 2; m ++){
+					if(no->type != '0')
+						aux = 0;
+					no = no->e;
+				}
+			}
+			else{
+				while(linha_r[j] > 10){
+			       	linha_r[j] = rand()%12;
+		   		}
+		   		for(int i = 0; i < coluna_r[j]; i++ ){
+					no = no->e;
+		    		}
+			    	for(int m = 0; m < linha_r[j]; m++ ){
+			       	 no = no->s;	
+				}
+				
+				for(int k = 0; k < 2; k ++){
+					if(no->type != '0')
+						aux = 0;
+					no = no->s;
+				}
+		   	}
+		}
+		
+		if(direction[j] == 0){
+			for(int i = 0; i < 2; i++){
+				no->type = 'f';
+				no->ori = '0';
+				if(i == 0)
+					no->simb = '>';
+				else{
+					no->simb = '<';
+				}
+				no = no->w;
+			}
+		}
+		else{
+			for(int i = 0; i < 2; i++){
+				no->type = 'f';
+				no->ori = '1';
+				if(i == 0)
+					no->simb = 'v';
+				else{
+					no->simb = '^';
+				}
+				no = no->n;
+			}
+		}
+		printf("Des-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
+		j = j + 1;
+		aux = 0;
+	}
+	
+	for(int l = 0; l < 2; l++){
+		while(aux == 0){
+		
+			no = tab;
+			aux = 1;
+
+			linha_r[j] = rand()%12;
+			coluna_r[j] = rand()%12;
+		
+			for(int i = 0; i < coluna_r[j]; i++ ){
+				no = no->e;
+		    	}
+			for(int k = 0; k < linha_r[j]; k++ ){
+				no = no->s;	
+			}
+			if(no->type != '0')
+				aux = 0;
+		}
+		no->type = 's';
+		no->simb = '@';
+		j = j + 1;
+		aux = 0; 	
+		}
+	while(aux == 0){
+		no = tab;
+		aux = 1;
+		linha_r[j] = rand()%12;
+		coluna_r[j] = rand()%12;			
+		for(int i = 0; i < coluna_r[j]; i++ ){
+			no = no->e;
+		}
+		for(int k = 0; k < linha_r[j]; k++ ){
+			no = no->s;	
+		}
+		if(no->type != '0')
+			aux = 0;
+	}
+	no->type = 'j';
+	no->simb = '&';	
 
 }
 
