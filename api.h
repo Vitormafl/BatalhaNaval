@@ -9,13 +9,13 @@
 		struct _coord *e;
 		struct _coord *w;
 		char simb;
+		char simb_ex;
+		char type;
 		/*	'p' - Porta-aviões
 			'd' - Destroyer
 			'f' - Fragata
 			's' - Submarino
 			'j' - jangada		*/
-		char simb_ex;
-		char type;
 		int ori; 	//0 = Horizontal | 1 = Vertical
 	
 	} coord;
@@ -31,5 +31,7 @@ int input(coordB**);
 void reset(coord*, coordB*);
 
 void jogada(coord*,int, coord**);
+
+void verificarJogada(coord*, coord*, int*, int*);
 
 #endif
