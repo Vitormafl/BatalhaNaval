@@ -1,4 +1,3 @@
-#endif
 #ifndef api_h
 #define api_h
 
@@ -31,7 +30,7 @@ int input(coord*, coord*, int*, int*);
 
 void reset(coord*, coord*);
 
-void jogada(coord*,int, coord**);
+void jogada(coord*, coord*,int, coord**, int*, int*);
 
 void verificarJogada(coord*, coord*, coord*, coord*, int*, int*);
 
