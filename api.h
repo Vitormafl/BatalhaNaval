@@ -1,7 +1,7 @@
 #ifndef api_h
 #define api_h
 
-// Coordenada player
+// Coordenada
 	typedef struct _coord{
 	
 		struct _coord *n;
@@ -9,24 +9,16 @@
 		struct _coord *e;
 		struct _coord *w;
 		char simb;
-		char type;
-		int ori;	//0 = Horizontal | 1 = Vertical
-	
-	} coord;
-
-// Coordenada bot
-	typedef struct _coordb{
-	
-		struct _coordb *n;
-		struct _coordb *s;
-		struct _coordb *e;
-		struct _coordb *w;
-		char simb;
+		/*	'p' - Porta-aviões
+			'd' - Destroyer
+			'f' - Fragata
+			's' - Submarino
+			'j' - jangada		*/
 		char simb_ex;
 		char type;
 		int ori; 	//0 = Horizontal | 1 = Vertical
 	
-	} coordB;
+	} coord;
 
 void iniciarTabuleiro(coord**, coordB**);
 
