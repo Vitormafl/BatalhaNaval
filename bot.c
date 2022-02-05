@@ -30,6 +30,7 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				escolhendo = 1;
 			else if(aux->simb != ' '){
 				aux->simb = 'O';
+				return;
 			}
 			else{
 				aux->simb = '*';
@@ -134,9 +135,12 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				return jogada(tabPlayer, 1, ant);
 			}
 		}
+		
+		//Escolhe aletóriamente um dos lados da coordenada atingida.
 		else{
 			
 			while(escolhendo){
+				aux = *ant;
 				srand(time(NULL));
 				escolha = rand()%4;
 				escolhendo = 0;
@@ -149,10 +153,27 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 					aux = aux->n;
 				else if(escolha == 3)
 					aux = aux->s;
+					
+				if(aux == NULL)
+					escolhendo = 1;
+				else{
+					if(aux->simb == '*' || aux->simb == 'O')
+						escolhendo = 1;
+					else if(aux->simb != ' '){
+						aux->simb = 'O';
+						return;
+					}
+					else{
+						aux->simb = '*';
+						*ant = aux;
+						return jogada(tabPlayer, 1, ant);
+				
+					}
+				}
 			}
 		}
 		
-		//Escolhe aleatóriamente caso alguma desgraça acometa os if anteriores.
+		//Escolhe aleatóriamente qualquer coordenada caso alguma desgraça acometa os if anteriores.
 		while(escolhendo){
 		
 			srand(time(NULL));
@@ -173,6 +194,7 @@ void jogada(coord* tabPlayer,int ver, coord** ant){
 				escolhendo = 1;
 			else if(aux->simb != ' '){
 				aux->simb = 'O';
+				return;
 			}
 			else{
 				aux->simb = '*';
