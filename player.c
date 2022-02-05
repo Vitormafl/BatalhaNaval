@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "api.h"
 
-int input(coordB* tabBot)
-{
+int input(coord* tabP, coord* tabB, int* pontP, int* pontB){
+
     char input[5]; char coordenadas[2];
 
     scanf("%s", &input);
@@ -12,7 +12,7 @@ int input(coordB* tabBot)
     {
         if (isalpha(input[i]))
         {
-            if (int(input[i]) >= 77) return 0; 
+            if ((int)(input[i]) >= 77) return 0; 
             coordenadas[0] = input[i];
         }
 
@@ -23,7 +23,7 @@ int input(coordB* tabBot)
         }
     }
 
-    for (int i = 0; i < int(coordenadas[0]); i++)
+    for (int i = 0; i < (int)(coordenadas[0]); i++)
     {
         noh = noh->e;
     }
@@ -36,9 +36,10 @@ int input(coordB* tabBot)
     if (noh->type != '0')
     {
         noh->simb = '*';
+        verificarJogada(tabP, tabB, noh, NULL, pontP, pontB);
     }
 
-    else noh->simb = '0';
+    else noh->simb = 'O';
 
     return 1;
 }
