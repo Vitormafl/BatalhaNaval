@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include "api.h"
 
+//recebe o input do usuário, verifica sua validade, e altera o tabuleiro do bot
 int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
 {
+
+    coord* noh = tabB;
+
     while (true)
     {
         char input[5]; char coordenadas[2];
@@ -14,13 +18,14 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
         {
             if (isalpha(input[i]))
             {
-                if (int(input[i]) >= 77) continue; 
+                if ((int)(input[i]) >= 77 && (int)(input[i]) <= 96) return 0;
+			    if ((int)(input[i]) >= 97) toupper(input[i]);
                 coordenadas[0] = input[i];
             }
 
             if (isdigit(input[i])) 
             {
-                if (input[i] < 1 or input[i] > 12) continue; 
+                if (input[i] < 1 || input[i] > 12) continue; 
                 coordenadas[1] = input[i];
             }
         }
