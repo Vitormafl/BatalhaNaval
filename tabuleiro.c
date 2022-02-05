@@ -197,34 +197,148 @@ void reset(coord* tabPlayer, coordB* tabBot){
 //INCOMPLETA
 void PreencherTabuleiro(coord** tab){
 
-    coord* no;
-    no = *tab;
+	coord* no;
+	no = *tab;
 
-    int linha_r, coluna_r, direction;
+	int linha_r[9], coluna_r[9], direction[9], aux = 0, j = 0;
 
-    srand(time(NULL));
+	srand(time(NULL));
 
-    linha_r = rand()%12;
-    coluna_r = rand()%12;
-    direction = rand()%2;
-
-    if(direction == 0){
-        while(coluna_r > 7){
-            coluna_r = rand()%12;
-        }
-    }
-    else{
-        while(linha_r > 7){
-            coluna_r = rand()%12;
-    }
-    for(int i = 0; i < coluna_r; i++){
-        no = no->e;
-    }
-    for(int j = 0; j < linha_r; j++){
-        no = no->s;
+	linha_r[j] = rand()%12;
+	coluna_r[j] = rand()%12;
+	direction[j] = rand()%2;
+	
+	if(direction[j] == 0){
+		while(coluna_r[j] > 7)
+			coluna_r[j] = rand()%12;
 	}
+	else{
+        	while(linha_r[j] > 7){
+               	linha_r[j] = rand()%12;
+   		}
+   	}
+    
+   	for(int i = 0; i < coluna_r[j]; i++ ){
+        	no = no->e;
+    	}
+    	for(int j = 0; j < linha_r[j]; j++ ){
+       	 no = no->s;
+	}
+	
+	printf("%d %d %d\n",linha_r[j], coluna_r[j], direction[j]);
+	
+	if(direction[j] == 0){
+		for(int i = 0; i < 5; i++){
+			no->type = 'a';
+			no->ori = '0';
+			if(i == 0)
+				no->simb = '<';
+			else if(i < 4)
+				no->simb = '#';
+			else{
+				no->simb = '>';
+			}
+			no = no->e;
+		}
+	}
+	else{
+		for(int i = 0; i < 5; i++){
+			no->type = 'a';
+			no->ori = '1';
+			if(i == 0)
+				no->simb = '^';
+			else if(i < 4)
+				no->simb = '#';
+			else{
+				no->simb = 'v';
+			}
+			no = no->s;
+		}
+	}
+	
+	j = j + 1;
+	
+	for(int l = 0; l < 2; l++){
+		while(aux == 0){
+		
+			no = *tab;
+			aux = 1;
+
+
+			linha_r[j] = rand()%12;
+			coluna_r[j] = rand()%12;
+			direction[j] = rand()%2;
+			
+			printf("%d %d %d\n",linha_r[j], coluna_r[j], direction[j]);
+			
+			if(direction[j] == 0){
+				while(coluna_r[j] > 8){
+					coluna_r[j] = rand()%12;
+				}
+				for(int i = 0; i < coluna_r[j]; i++ ){
+					no = no->e;
+		    		}
+			    	for(int j = 0; j < linha_r[j]; j++ ){
+			       	 no = no->s;	
+				}
+				for(int k = 0; k < 4; k ++){
+					if(no->type != '0')
+						aux = 0;
+					no = no->e;
+				}
+			}
+			else{
+				while(linha_r[j] > 8){
+			       	linha_r[j] = rand()%12;
+		   		}
+		   		for(int i = 0; i < coluna_r[j]; i++ ){
+					no = no->e;
+		    		}
+			    	for(int j = 0; j < linha_r[j]; j++ ){
+			       	 no = no->s;	
+				}
+				
+				for(int k = 0; k < 4; k ++){
+					if(no->type != '0')
+						aux = 0;
+					no = no->s;
+				}
+		   	}
+		}
+		
+		if(direction[j] == 0){
+			for(int i = 0; i < 4; i++){
+				no->type = 'a';
+				no->ori = '0';
+				if(i == 0)
+					no->simb = '<';
+				else if(i < 3)
+					no->simb = '#';
+				else{
+					no->simb = '>';
+				}
+				no = no->e;
+			}
+		}
+		else{
+			for(int i = 0; i < 4; i++){
+				no->type = 'a';
+				no->ori = '1';
+				if(i == 0)
+					no->simb = '^';
+				else if(i < 3)
+					no->simb = '#';
+				else{
+					no->simb = 'v';
+				}
+				no = no->s;
+			}
+		}
+	}
+	
+
 }
-}
+
 
 //Para testes
 int main(){
