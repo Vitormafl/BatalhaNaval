@@ -1,3 +1,4 @@
+#endif
 #ifndef api_h
 #define api_h
 
@@ -20,18 +21,18 @@
 	
 	} coord;
 
-void iniciarTabuleiro(coord**, coordB**);
+void iniciarTabuleiro(coord**, coord**);
 
-void printarTabuleiro(coord*, coordB*);
+void printarTabuleiro(coord*, coord*);
 
-void PreencherTabuleiro(coord**);
+void PreencherTabuleiro(coord*);
 
-int input(coordB**);
+int input(coord*, coord*, int*, int*);
 
-void reset(coord*, coordB*);
+void reset(coord*, coord*);
 
 void jogada(coord*,int, coord**);
 
-void verificarJogada(coord*, coord*, int*, int*);
+void verificarJogada(coord*, coord*, coord*, coord*, int*, int*);
 
 #endif
