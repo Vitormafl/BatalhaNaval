@@ -529,7 +529,6 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	
 	//Verifica jogada do player
 	if(acertoB == NULL){
-		
 		aux = acertoP;
 		if(aux->type == 'j'){
 			aux->simb_ex = aux->simb;
@@ -549,25 +548,28 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 			while(aux->simb != '>')
 				aux = aux->e;
 			
-			//2. volta até a extremidade direita do navio, verificando se ele foi totalmente afundado
-			do{
+			//2. volta até a extremidade esquerda do navio, verificando se ele foi totalmente afundado
+			while(aux->simb != '<'){
 				if(aux->simb_ex != '*')
 					afundado = 0;
 					
 				aux = aux->w;
+				if(aux->simb_ex != '*')
+					afundado = 0;
 					
-			}while(aux->simb != '<');
-			
+			}
 			//3. Caso afundou um navio do bot, revela ele por completo.
 			if(afundado){
-				do{
-				aux->simb_ex = aux->simb;
-				aux = aux->e;
-				
-				}while(aux->simb != '>');
+				while(aux->simb != '>'){
+					aux->simb_ex = aux->simb;
+					aux = aux->e;
+					if(aux->simb_ex != aux->simb)
+						aux->simb_ex = aux->simb;
+				}
 				*pontP += 1;
 
 			}
+			printarTabuleiro(tabP, tabB);
 			input(tabP, tabB, pontP, pontB);
 		}
 		//Se acertou um navio vertical
@@ -577,55 +579,61 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				aux = aux->s;
 			
 			//2. 
-			do{
+			while(aux->simb != '^'){
 			
 				if(aux->simb_ex != '*')
 					afundado = 0;
 				
 				aux = aux->n;
+				if(aux->simb_ex != '*')
+					afundado = 0;
 			
-			}while(aux->simb != '^');
+			}
 			
 			//3.
 			if(afundado){
-				do{
+				while(aux->simb != 'v'){
 					aux->simb_ex = aux->simb;
-					aux = acertoB->s;
-					
-				}while(aux->simb!= 'v');
+					aux = aux->s;
+					if(aux->simb_ex != aux->simb)
+						aux->simb_ex = aux->simb;
+				}
 				*pontP += 1;
-				input(tabP, tabB, pontP, pontB);
+				
 			}
+			printarTabuleiro(tabP, tabB);
+			input(tabP, tabB, pontP, pontB);
 		}
 	}
 	
 	
 	//Verifica jogada do bot			
 	else{
-	
-		if(acertoB->type == 'j'){
+		aux = acertoB;
+		if(aux->type == 'j'){
 			*pontB += 1;
 			removerSub(tabB);
 		}
-		else if(acertoB->type == 's'){
+		else if(aux->type == 's'){
 			*pontB += 1;
 			jogada(tabP, tabB, 0, &acertoB, pontP, pontB);
 		}
 		//Se acertou um navio horizontal
-		if(acertoB->ori == 0){
+		if(aux->ori == 0){
 			
 			//1. Vai até a extremidade direita do navio
-			while(acertoB->simb != '>')
-				acertoB = acertoB->e;
+			while(aux->simb != '>')
+				aux = aux->e;
 			
 			//2. volta até a extremidade direita do navio, verificando se ele foi totalmente afundado
-			do{
-				if(acertoB->simb_ex != '*')
+			while(aux->simb != '<'){
+				if(aux->simb_ex != '*')
 					afundado = 0;
 					
-				acertoB = acertoB->w;
-				
-			}while(acertoB->simb != '<');
+				aux = aux->w;
+				if(aux->simb_ex != '*')
+					afundado = 0;
+			}
 			
 			//3. Caso afundou um navio do player, joga de novo aleatoriamente.
 			if(afundado){
@@ -633,24 +641,26 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				return jogada(tabP, tabB, 0, &acertoB, pontP, pontB);
 			}
 			//4. Caso não tenha afundado o navio do player, joga de novo tentando afundar.
-			jogada(tabP, tabB, 1, &acertoB, pontP, pontB);
+			jogada(tabP, tabB, 1, &aux, pontP, pontB);
 		}
 		
 		//Se acertou um navio vertical
 		else{
 			//1. 
-			while(acertoB->simb != 'v')
-				acertoB = acertoB->s;
+			while(aux->simb != 'v')
+				aux = aux->s;
 			
 			//2. 	
-			do{
+			while(aux->simb != '^'){
 			
-				if(acertoB->simb_ex != '*')
+				if(aux->simb_ex != '*')
 					afundado = 0;
 					
-				acertoB = acertoB->n;
+				aux = aux->n;
+				if(aux->simb_ex != '*')
+					afundado = 0;
 				
-			}while(acertoB->simb != '^');
+			}
 			
 			//3.
 			if(afundado){
