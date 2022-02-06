@@ -46,11 +46,11 @@ void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
 			
 			if(l == 0) no->n = NULL;
 			else if(c > 0){
-
+			
 				no->n = no->w->n->e;
 				no->n->s = no;
 			}
-
+			
 			if(c < 11){
 				no->e = (coord*)malloc(sizeof(coord));
 				aux = no;
@@ -62,6 +62,11 @@ void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
 			}
 			else{
 				no->e = NULL;
+			}
+			if(l != 0 && c > 0){
+			
+				no->n = no->w->n->e;
+				no->n->s = no;
 			}
 		}
 	}
@@ -119,6 +124,11 @@ void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
 			}
 			else{
 				no->e = NULL;
+			}
+			if(l != 0 && c > 0){
+			
+				no->n = no->w->n->e;
+				no->n->s = no;
 			}
 
 		}
