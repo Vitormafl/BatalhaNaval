@@ -165,7 +165,7 @@ void printarTabuleiro(coord* tabPlayer, coord* tabBot){
 		printf("+  %2d+", l);
 		for(int c2 = 1; c2 <= 12; c2++){
 		
-			printf("%c", noB->simb);
+			printf("%c", noB->simb_ex);
 			if(c2 < 12)
 				noB = noB->e;
 		}
