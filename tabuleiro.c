@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <time.h>
-#include <unistd.h> 
-//#include <dos.h>
+#include <unistd.h> //Linux
+//#include <dos.h> //Windows
 #include "api.h"
 
 void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
@@ -157,15 +157,15 @@ void printarTabuleiro(coord* tabPlayer, coord* tabBot){
 			noB = noB->s;
 		}
 		for(int c = 1; c <= 12; c++){
-		
-			printf("%c", noP->simb);
+			
+			printf("%c", noP->simb_ex);
 			if(c < 12)
 				noP = noP->e;
 		}
 		printf("+  %2d+", l);
 		for(int c2 = 1; c2 <= 12; c2++){
 		
-			printf("%c", noB->simb_ex);
+			printf("%c", noB->simb);
 			if(c2 < 12)
 				noB = noB->e;
 		}
@@ -241,7 +241,6 @@ void PreencherTabuleiro(coord* tab){
     	for(int p = 0; p < linha_r[j]; p++ ){
        	no = no->s;
 	}
-	printf("AiC-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 	
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
@@ -324,8 +323,6 @@ void PreencherTabuleiro(coord* tab){
 		   	}
 		}
 		
-		printf("Des-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
-		
 		if(direction[j] == 0){
 			for(int i = 0; i < 3; i++){
 				no->type = 'd';
@@ -406,8 +403,6 @@ void PreencherTabuleiro(coord* tab){
 		   	}
 		}
 		
-		printf("Pa-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
-		
 		if(direction[j] == 0){
 			for(int i = 0; i < 2; i++){
 				no->type = 'f';
@@ -455,7 +450,7 @@ void PreencherTabuleiro(coord* tab){
 		}
 		no->type = 's';
 		no->simb = '@';
-		printf("sub-linha: %d, coluna: %d, barco n: %d\n",linha_r[j], coluna_r[j],j);
+		
 		j = j + 1;
 		aux = 0; 	
 		}
@@ -475,14 +470,14 @@ void PreencherTabuleiro(coord* tab){
 	}
 	no->type = 'j';
 	no->simb = '&';	
-	printf("Jang-linha: %d, coluna: %d, barco n: %d\n",linha_r[j], coluna_r[j], j);
 }
 
 void removerSub(coord* tab)
 {
     coord *no = tab;
     int par = 0; int cont = 0;
-    /*while(no->type != 's' && cont < 12)
+    
+    while(no->type != 's' && cont < 12)
     {
         if (par == 0)
         {
@@ -502,13 +497,10 @@ void removerSub(coord* tab)
             no = no->s; 
             par = 0; cont += 1;
         }
-        printf("e\n");
-        printf("%d\n", cont);
     }
-	printf("alguma coisa\n");
-	*/
 	
-	for(int l = 1; l <= 12 && no->type != 's'; l++){
+	
+	/*for(int l = 1; l <= 12 && no->type != 's'; l++){
 
 		no = tab;
 		
@@ -521,7 +513,7 @@ void removerSub(coord* tab)
 			if(c < 12)
 				no = no->e;
 		}		
-	}
+	}*/
     if (no->type == 's')
     {
         no->type = '0';
@@ -532,7 +524,7 @@ void removerSub(coord* tab)
     else return;
 }
 
-void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, int* pontP, int* pontB){
+void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, int* pontP, int* pontB, int* ver){
 
 	int afundado = 1;
 	coord* aux;
@@ -543,13 +535,15 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 		if(aux->type == 'j'){
 			aux->simb_ex = aux->simb;
 			*pontB += 1;
+			*ver = 0;
 			removerSub(tabP);
 		}
 		else if(aux->type == 's'){
 			aux->simb_ex = aux->simb;
 			*pontP += 1;
+			*ver = 0;
 			printarTabuleiro(tabP, tabB);
-			input(tabP, tabB, pontP, pontB);
+			input(tabP, tabB, pontP, pontB, ver);
 		}
 		//Se acertou um navio horizontal
 		else if(aux->ori == 0){
@@ -580,7 +574,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 
 			}
 			printarTabuleiro(tabP, tabB);
-			input(tabP, tabB, pontP, pontB);
+			input(tabP, tabB, pontP, pontB, ver);
 		}
 		//Se acertou um navio vertical
 		else{
@@ -612,7 +606,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				
 			}
 			printarTabuleiro(tabP, tabB);
-			input(tabP, tabB, pontP, pontB);
+			input(tabP, tabB, pontP, pontB, ver);
 		}
 	}
 	
@@ -621,16 +615,19 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	else{
 		aux = acertoB;
 		if(aux->type == 'j'){
+			printf(".\n");
 			*pontB += 1;
 			removerSub(tabB);
 		}
 		else if(aux->type == 's'){
+			printf("0\n");
 			*pontB += 1;
-			jogada(tabP, tabB, 0, &acertoB, pontP, pontB);
+			*ver = 0;
+			jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 		//Se acertou um navio horizontal
 		if(aux->ori == 0){
-			
+			printf("1\n");
 			//1. Vai até a extremidade direita do navio
 			while(aux->simb != '>')
 				aux = aux->e;
@@ -644,22 +641,24 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				if(aux->simb_ex != '*')
 					afundado = 0;
 			}
-			
+			printf("afundado: %d\n", afundado);
 			//3. Caso afundou um navio do player, joga de novo aleatoriamente.
 			if(afundado){
 				*pontB += 1;
-				return jogada(tabP, tabB, 0, &acertoB, pontP, pontB);
+				printf("A\n");
+				*ver = 0;
+				return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 			}
 			//4. Caso não tenha afundado o navio do player, joga de novo tentando afundar.
-			jogada(tabP, tabB, 1, &aux, pontP, pontB);
+			jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 		
 		//Se acertou um navio vertical
 		else{
+			printf("3\n");
 			//1. 
 			while(aux->simb != 'v')
 				aux = aux->s;
-			
 			//2. 	
 			while(aux->simb != '^'){
 			
@@ -667,24 +666,27 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 					afundado = 0;
 					
 				aux = aux->n;
+				
 				if(aux->simb_ex != '*')
 					afundado = 0;
 				
 			}
-			
+			printf("afundado: %d\n", afundado);
 			//3.
 			if(afundado){
 			
+				printf("B\n");
 				*pontB += 1;
-				return jogada(tabP, tabB, 0, &acertoB, pontP, pontB);
+				*ver = 0;
+				return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 			}
 			//4.
-			jogada(tabP, tabB, 1, &acertoB, pontP, pontB);
+			jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 	}
 }
 
-int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
+int input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 {
 
     coord* noh = tabB;
@@ -695,10 +697,10 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
         char input[5]; int coordenadas[2];
 
         scanf("%s", input);
-
+	
         for (int i = 0; i < 5; i++)
         {
-            if (((int)(input[i]) > 64 && (int)(input[i]) < 77) || (int)(input[i]) > 96 && (int)(input[i]) < 109)
+            if (isalpha(input[i]))
             {
 		if ((int)(input[i]) > 96)
 			coordenadas[0] = input[i] - 96;
@@ -716,6 +718,7 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
                 cont++;
             }
         }
+        if(coordenadas[0] > 12) continue;
         if(coordenadas[1] > 12) continue;
         
 	printf("%d, %d\n", coordenadas[0], coordenadas[1]);
@@ -729,53 +732,59 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
         {
             noh = noh->s;
         }
-
+	
         if (noh->type != '0')
         {
 
             noh->simb_ex = '*';
-            verificarJogada(tabP, tabB, noh, NULL, pontP, pontB);
+            verificarJogada(tabP, tabB, noh, NULL, pontP, pontB, ver);
         }
 
-        else noh->simb_ex = 'O';
+        else
+       	 noh->simb_ex = 'O';
 
         break;
     }
 }
 
-void jogadaBot(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, int* pontB){
+void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pontP, int* pontB){
 
-	coord *aux;
+	coord *aux, *aux2;
 	
 	int l, c, escolhendo = 1, escolha;
 	
-	if (ver == 0){
+	if (*ver == 0){
 		while(escolhendo){
 		
 			srand(time(NULL));
 			l = rand()%12;
 			c = rand()%12;
 			
+			printf("L = %d\n", l + 1);
+			printf("C = %d\n", c + 1);
 			aux = tabPlayer;
 			escolhendo = 0;
-			
-			for(int i = 0; i <= l; i++){
-				
+			for(int i = 0; i < l; i++){
 				aux = aux->s;
-				for(int j = 0; j <= c; j++)
-					aux = aux->e;
 			}
-		
-			if(aux->simb == '*' || aux->simb == 'O')
+			for(int j = 0; j < c; j++){
+				aux = aux->e;
+			}
+			if(aux->simb_ex == '*' || aux->simb_ex == 'O'){
+				sleep(1);
 				escolhendo = 1;
-			else if(aux->simb == ' '){
-				aux->simb = 'O';
+			}
+			else if(aux->simb_ex == ' '){
+				aux->simb_ex = 'O';
 				return;
 			}
-			else{
-				aux->simb = '*';
-				*ant = aux;
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+			else{	
+				aux2 = aux;
+				aux->simb_ex = '*';
+				*ver = 1;
+				*ant = aux2;
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 	}
@@ -784,96 +793,102 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP
 		aux = *ant;
 		
 		//Verifica para a direita
-		if(aux->e->simb == '*'){
+		if(aux->e != NULL && aux->e->simb_ex == '*'){
 		
-			while(aux->e != NULL && aux->e->simb == '*')
+			while(aux->e != NULL && aux->e->simb_ex == '*')
 				aux = aux->e;
 				
 			if (aux->e == NULL)
 				aux = *ant;
 				
-			else if(aux->e->simb == 'O')
+			else if(aux->e->simb_ex == 'O')
 				aux = *ant;
 		
-			else if(aux->e->simb == ' '){
-				aux->e->simb = 'O';
+			else if(aux->e->simb_ex == ' '){
+				aux->e->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->e->simb = '*';
+				aux->e->simb_ex = '*';
+				*ver = 1;
 				*ant = aux->e;
-			
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
 		//Verifica para a esquerda
-		else if(aux->w->simb == '*'){
+		else if(aux->w != NULL && aux->w->simb_ex == '*'){
 		
-			while(aux->w != NULL && aux->w->simb == '*')
+			while(aux->w != NULL && aux->w->simb_ex == '*')
 				aux = aux->w;
 				
 			if (aux->w == NULL)
 				aux = *ant;
 					
-			else if(aux->w->simb == 'O')
+			else if(aux->w->simb_ex == 'O')
 				aux = *ant;
 			
-				else if(aux->w->simb == ' '){
-				aux->w->simb = 'O';
+				else if(aux->w->simb_ex == ' '){
+					aux->w->simb_ex = 'O';
 				return;
-			}
+				}
 			else{
-				aux->w->simb = '*';
+				aux->w->simb_ex = '*';
+				*ver = 1;
 				*ant = aux->w;
-				
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
 			
 		//Verifica para cima
-		else if(aux->n->simb == '*'){
-			while(aux->n != NULL && aux->n->simb == '*')
+		else if(aux->n != NULL && aux->n->simb_ex == '*'){
+			while(aux->n != NULL && aux->n->simb_ex == '*')
 				aux = aux->n;
 			
 			if (aux->n == NULL)
 				aux = *ant;
 					
-			else if(aux->n->simb == 'O')
+			else if(aux->n->simb_ex == 'O')
 				aux = *ant;
 			
-			else if(aux->n->simb == ' '){
-				aux->n->simb = 'O';
+			else if(aux->n->simb_ex == ' '){
+				aux->n->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->n->simb = '*';
-					*ant = aux->n;
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				aux->n->simb_ex = '*';
+				*ver = 1;
+				*ant = aux->n;
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
 		//Verifica para baixo
-		else if(aux->s->simb == '*'){
+		else if(aux->s != NULL && aux->s->simb_ex == '*'){
 		
-			while(aux->s != NULL && aux->s->simb == '*')
+			while(aux->s != NULL && aux->s->simb_ex == '*')
 				aux = aux->s;
 			
 			if (aux->s == NULL)
 				aux = *ant;
 					
-			else if(aux->s->simb == 'O')
+			else if(aux->s->simb_ex == 'O')
 				aux = *ant;
 			
-			else if(aux->s->simb == ' '){
-				aux->s->simb = 'O';
+			else if(aux->s->simb_ex == ' '){
+				aux->s->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->s->simb = '*';
+				aux->s->simb_ex = '*';
 				*ant = aux->s;
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				*ver = 1;
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
@@ -898,16 +913,18 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP
 				if(aux == NULL)
 					escolhendo = 1;
 				else{
-					if(aux->simb == '*' || aux->simb == 'O')
+					if(aux->simb_ex == '*' || aux->simb_ex == 'O')
 						escolhendo = 1;
-					else if(aux->simb == ' '){
-						aux->simb = 'O';
+					else if(aux->simb_ex == ' '){
+						aux->simb_ex = 'O';
 						return;
 					}
 					else{
-						aux->simb = '*';
+						aux->simb_ex = '*';
+						*ver = 1;
 						*ant = aux;
-						return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+						printarTabuleiro(tabPlayer, tabBot);
+						return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 				
 					}
 				}
@@ -931,17 +948,39 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP
 					aux = aux->e;
 			}
 		
-			if(aux->simb == '*' || aux->simb == 'O')
+			if(aux->simb_ex == '*' || aux->simb_ex == 'O')
 				escolhendo = 1;
-			else if(aux->simb == ' '){
-				aux->simb = 'O';
+			else if(aux->simb_ex == ' '){
+				aux->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->simb = '*';
+				aux->simb_ex = '*';
+				*ver = 1;
 				*ant = aux;
-				verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
+		}
+	}
+}
+void revelarTab(coord* tabP){
+
+	coord* noP = tabP;
+	
+	for(int l = 1; l <= 12; l++){
+
+		noP = tabP;
+		
+		for(int l2 = 1; l2 < l; l2++){
+		
+			noP = noP->s;
+		}
+		for(int c = 1; c <= 12; c++){
+			
+			noP->simb_ex = noP->simb;
+			if(c < 12)
+				noP = noP->e;
 		}
 	}
 }
@@ -949,16 +988,24 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP
 //Para testes
 int main(){
 	
-	int pontP = 0, pontB = 0;
+	int pontP = 0, pontB = 0, ver = 0;
+	coord* ant = NULL;
+	char aaaa[100];
 	coord *tabP = NULL; 
 	coord *tabB = NULL;
 	iniciarTabuleiro(&tabP, &tabB);
 	PreencherTabuleiro(tabP);
+	revelarTab(tabP);
 	sleep(1);
 	PreencherTabuleiro(tabB);
 	printarTabuleiro(tabP, tabB);
-	while(1){
-		input(tabP, tabB, &pontP, &pontB);
+	for(;;){
+		//input(tabP, tabB, &pontP, &pontB, &ver);
+		jogadaBot(tabP, tabB, &ver, &ant, &pontP, &pontB);
+		printf("Pontuação: Jogador - %d   Computador - %d\n", pontP, pontB);
 		printarTabuleiro(tabP, tabB);
+		scanf("%s", aaaa);
 	}
 }
+
+
