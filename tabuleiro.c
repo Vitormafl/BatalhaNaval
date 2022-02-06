@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <time.h>
+#include <unistd.h> 
+//#include <dos.h>
 #include "api.h"
 
 void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
@@ -228,17 +231,18 @@ void PreencherTabuleiro(coord* tab){
     	for(int p = 0; p < linha_r[j]; p++ ){
        	no = no->s;
 	}
-	
 	printf("AiC-linha: %d, coluna: %d, direção: %d, barco n: %d\n",linha_r[j], coluna_r[j], direction[j], j);
 	
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
 			no->type = 'p';
 			no->ori = '0';
-			if(i == 0)
+			if(i == 0){
 				no->simb = '<';
-			else if(i < 4)
+			}
+			else if(i < 4){
 				no->simb = '#';
+			}
 			else{
 				no->simb = '>';
 			}
@@ -249,10 +253,12 @@ void PreencherTabuleiro(coord* tab){
 		for(int i = 0; i < 5; i++){
 			no->type = 'p';
 			no->ori = '1';
-			if(i == 0)
+			if(i == 0){
 				no->simb = '^';
-			else if(i < 4)
+			}
+			else if(i < 4){
 				no->simb = '#';
+			}
 			else{
 				no->simb = 'v';
 			}
@@ -466,32 +472,47 @@ void removerSub(coord* tab)
 {
     coord *no = tab;
     int par = 0; int cont = 0;
-    while (no->simb != '@' || cont == 12)
+    /*while(no->type != 's' && cont < 12)
     {
         if (par == 0)
         {
             no = no->e;
         }
-
         else
         {
             no = no->w;
         }
-
         if (no->e == NULL)
         {
             no = no->s; 
             par = 1; cont += 1;
         }
-
         if (no->w == NULL)
         {
             no = no->s; 
             par = 0; cont += 1;
         }
+        printf("e\n");
+        printf("%d\n", cont);
     }
+	printf("alguma coisa\n");
+	*/
+	
+	for(int l = 1; l <= 12 && no->type != 's'; l++){
 
-    if (no->simb == '@')
+		no = tab;
+		
+		for(int l2 = 1; l2 < l && no->type != 's'; l2++){
+			
+			no = no->s;
+		}
+		for(int c = 1; c <= 12 && no->type != 's'; c++){
+		
+			if(c < 12)
+				no = no->e;
+		}		
+	}
+    if (no->type == 's')
     {
         no->type = '0';
         no->simb = ' ';
@@ -518,6 +539,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 		else if(aux->type == 's'){
 			aux->simb_ex = aux->simb;
 			*pontP += 1;
+			printarTabuleiro(tabP, tabB);
 			input(tabP, tabB, pontP, pontB);
 		}
 		//Se acertou um navio horizontal
@@ -641,47 +663,63 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	}
 }
 
-int input(coord* tabP, coord* tabB, int* pontP, int* pontB){
+int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
+{
 
-    char input[5]; char coordenadas[2];
     coord* noh = tabB;
+    int cont = 1;
 
-    scanf("%s", &input);
-
-    for (int i = 0; i < 5; i++)
+    while(1)
     {
-        if (isalpha(input[i]))
+        char input[5]; int coordenadas[2];
+
+        scanf("%s", input);
+
+        for (int i = 0; i < 5; i++)
         {
-            if ((int)(input[i]) >= 77) return 0; 
-            coordenadas[0] = input[i];
+            if (((int)(input[i]) > 64 && (int)(input[i]) < 77) || (int)(input[i]) > 96 && (int)(input[i]) < 109)
+            {
+		if ((int)(input[i]) > 96)
+			coordenadas[0] = input[i] - 96;
+		else
+			coordenadas[0] = input[i] - 64;
+            }
+            if (isdigit(input[i])){
+            	if(cont == 1){
+                	coordenadas[1] = input[i] - 48;
+                }
+                else{
+                	coordenadas[1] *= 10;
+                	coordenadas[1] += (input[i] - 48);
+                }
+                cont++;
+            }
+        }
+        if(coordenadas[1] > 12) continue;
+        
+	printf("%d, %d\n", coordenadas[0], coordenadas[1]);
+	
+        for (int c = 1; c < coordenadas[0]; c++)
+        {
+            noh = noh->e;
         }
 
-        if (isdigit(input[i])) 
+        for (int l = 1; l < coordenadas[1]; l++)
         {
-            if (input[i] < 1 || input[i] > 12) return 0; 
-            coordenadas[1] = input[i];
+            noh = noh->s;
         }
+
+        if (noh->type != '0')
+        {
+
+            noh->simb_ex = '*';
+            verificarJogada(tabP, tabB, noh, NULL, pontP, pontB);
+        }
+
+        else noh->simb_ex = 'O';
+
+        break;
     }
-
-    for (int i = 0; i < (int)(coordenadas[0]); i++)
-    {
-        noh = noh->e;
-    }
-
-    for (int i = 0; i < coordenadas[1]; i++)
-    {
-        noh = noh->s;
-    }
-
-    if (noh->type != '0')
-    {
-        noh->simb_ex = '*';
-        verificarJogada(tabP, tabB, noh, NULL, pontP, pontB);
-    }
-
-    else noh->simb_ex = 'O';
-
-    return 1;
 }
 
 void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, int* pontB){
@@ -895,8 +933,11 @@ int main(){
 	coord *tabB = NULL;
 	iniciarTabuleiro(&tabP, &tabB);
 	PreencherTabuleiro(tabP);
+	sleep(1);
 	PreencherTabuleiro(tabB);
 	printarTabuleiro(tabP, tabB);
-	input(tabP, tabB, &pontP, &pontB);
-	printarTabuleiro(tabP, tabB);
+	while(1){
+		input(tabP, tabB, &pontP, &pontB);
+		printarTabuleiro(tabP, tabB);
+	}
 }
