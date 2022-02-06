@@ -743,7 +743,7 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
     }
 }
 
-void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, int* pontB){
+void jogadaBot(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, int* pontB){
 
 	coord *aux;
 	
