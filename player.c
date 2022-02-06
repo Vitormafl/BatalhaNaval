@@ -1,4 +1,9 @@
-int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "api.h"
+
+int input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 {
 
     coord* noh = tabB;
@@ -9,10 +14,10 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
         char input[5]; int coordenadas[2];
 
         scanf("%s", input);
-
+	
         for (int i = 0; i < 5; i++)
         {
-            if (((int)(input[i]) > 64 && (int)(input[i]) < 77) || (int)(input[i]) > 96 && (int)(input[i]) < 109)
+            if (isalpha(input[i]))
             {
 		if ((int)(input[i]) > 96)
 			coordenadas[0] = input[i] - 96;
@@ -30,6 +35,7 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
                 cont++;
             }
         }
+        if(coordenadas[0] > 12) continue;
         if(coordenadas[1] > 12) continue;
         
 	printf("%d, %d\n", coordenadas[0], coordenadas[1]);
@@ -43,15 +49,16 @@ int input(coord* tabP, coord* tabB, int* pontP, int* pontB)
         {
             noh = noh->s;
         }
-
+	
         if (noh->type != '0')
         {
 
             noh->simb_ex = '*';
-            verificarJogada(tabP, tabB, noh, NULL, pontP, pontB);
+            verificarJogada(tabP, tabB, noh, NULL, pontP, pontB, ver);
         }
 
-        else noh->simb_ex = 'O';
+        else
+       	 noh->simb_ex = 'O';
 
         break;
     }

@@ -1,41 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h> //Linux
+//#include <dos.h> //Windows
 #include "api.h"
 
-void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, int* pontB){
+void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pontP, int* pontB){
 
-	coord *aux;
+	coord *aux, *aux2;
 	
 	int l, c, escolhendo = 1, escolha;
 	
-	if (ver == 0){
+	if (*ver == 0){
 		while(escolhendo){
 		
 			srand(time(NULL));
 			l = rand()%12;
-			j = rand()%12;
+			c = rand()%12;
 			
+			printf("L = %d\n", l + 1);
+			printf("C = %d\n", c + 1);
 			aux = tabPlayer;
 			escolhendo = 0;
-			
-			for(i = 0; i <= l, i++){
-				
+			for(int i = 0; i < l; i++){
 				aux = aux->s;
-				for(j = 0; j <= c, j++)
-					aux = aux->e;
 			}
-		
-			if(aux->simb == '*' || aux->simb == 'O')
+			for(int j = 0; j < c; j++){
+				aux = aux->e;
+			}
+			if(aux->simb_ex == '*' || aux->simb_ex == 'O'){
+				sleep(1);
 				escolhendo = 1;
-			else if(aux->simb == ' '){
-				aux->simb = 'O';
+			}
+			else if(aux->simb_ex == ' '){
+				aux->simb_ex = 'O';
 				return;
 			}
-			else{
-				aux->simb = '*';
-				*ant = aux;
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+			else{	
+				aux2 = aux;
+				aux->simb_ex = '*';
+				*ver = 1;
+				*ant = aux2;
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 	}
@@ -43,97 +50,150 @@ void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, i
 	else{
 		aux = *ant;
 		
-		//Verifica para a direita
-		if(aux->e->simb == '*'){
+		//Verifica uma extremidade
+		//Verifica para a esquerda
+		if((aux->e != NULL && aux->e->simb_ex == '*') && (aux->w != NULL && aux->w->simb_ex == ' ')){
 		
-			while(aux->e != NULL && aux->e->simb == '*')
+			aux->w->simb_ex = '*';
+			*ver = 1;
+			*ant = aux->w;
+			printarTabuleiro(tabPlayer, tabBot);
+			return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
+		
+		}
+		
+		//Verifica para a direita
+		else if((aux->w != NULL && aux->w->simb_ex == '*') && (aux->e != NULL && aux->e->simb_ex == ' ')){
+		
+			aux->e->simb_ex = '*';
+			*ver = 1;
+			*ant = aux->e;
+			printarTabuleiro(tabPlayer, tabBot);
+			return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
+		
+		}
+		
+			
+		//Verifica para cima
+		else if((aux->s != NULL && aux->s->simb_ex == '*') && (aux->n != NULL && aux->n->simb_ex == ' ')){
+		
+			aux->n->simb_ex = '*';
+			*ver = 1;
+			*ant = aux->n;
+			printarTabuleiro(tabPlayer, tabBot);
+			return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
+		
+		}
+		
+		//Verifica para baixo
+		else if((aux->n != NULL && aux->n->simb_ex == '*') && (aux->s != NULL && aux->s->simb_ex == ' ')){
+		
+			aux->s->simb_ex = '*';
+			*ver = 1;
+			*ant = aux->s;
+			printarTabuleiro(tabPlayer, tabBot);
+			return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
+		
+		}
+		
+		//Vai para a outra extreminadade do navio
+		//Verifica para a direita
+		if(aux->e != NULL && aux->e->simb_ex == '*'){
+		
+			while(aux->e != NULL && aux->e->simb_ex == '*')
 				aux = aux->e;
 				
 			if (aux->e == NULL)
 				aux = *ant;
 				
-			else if(aux->e->simb == 'O')
+			else if(aux->e->simb_ex == 'O')
 				aux = *ant;
 		
-			else if(aux->e->simb == ' '){
-				aux->e->simb = 'O';
+			else if(aux->e->simb_ex == ' '){
+				aux->e->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->e->simb = '*';
+				aux->e->simb_ex = '*';
+				*ver = 1;
 				*ant = aux->e;
-			
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
 		//Verifica para a esquerda
-		else if(aux->w->simb == '*'){
+		else if(aux->w != NULL && aux->w->simb_ex == '*'){
 		
-			while(aux->w != NULL && aux->w->simb == '*')
+			while(aux->w != NULL && aux->w->simb_ex == '*')
 				aux = aux->w;
 				
 			if (aux->w == NULL)
 				aux = *ant;
 					
-			else if(aux->w->simb == 'O')
+			else if(aux->w->simb_ex == 'O')
 				aux = *ant;
 			
-				else if(aux->w->simb == ' '){
-				aux->w->simb = 'O';
+				else if(aux->w->simb_ex == ' '){
+					aux->w->simb_ex = 'O';
 				return;
-			}
+				}
 			else{
-				aux->w->simb = '*';
+				aux->w->simb_ex = '*';
+				*ver = 1;
 				*ant = aux->w;
-				
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
 			
 		//Verifica para cima
-		else if(aux->n->simb == '*'){
-			while(aux->n != NULL && aux->n->simb == '*')
+		else if(aux->n != NULL && aux->n->simb_ex == '*'){
+			while(aux->n != NULL && aux->n->simb_ex == '*')
 				aux = aux->n;
 			
 			if (aux->n == NULL)
 				aux = *ant;
 					
-			else if(aux->n->simb == 'O')
+			else if(aux->n->simb_ex == 'O')
 				aux = *ant;
 			
-			else if(aux->n->simb == ' '){
-				aux->n->simb = 'O';
+			else if(aux->n->simb_ex == ' '){
+				aux->n->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->n->simb = '*';
-					*ant = aux->n;
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				aux->n->simb_ex = '*';
+				*ver = 1;
+				*ant = aux->n;
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
 		//Verifica para baixo
-		else if(aux->s->simb == '*'){
+		else if(aux->s != NULL && aux->s->simb_ex == '*'){
 		
-			while(aux->s != NULL && aux->s->simb == '*')
+			while(aux->s != NULL && aux->s->simb_ex == '*')
 				aux = aux->s;
 			
 			if (aux->s == NULL)
 				aux = *ant;
 					
-			else if(aux->s->simb == 'O')
+			else if(aux->s->simb_ex == 'O')
 				aux = *ant;
 			
-			else if(aux->s->simb == ' '){
-				aux->s->simb = 'O';
+			else if(aux->s->simb_ex == ' '){
+				aux->s->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->s->simb = '*';
+				aux->s->simb_ex = '*';
 				*ant = aux->s;
-				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				*ver = 1;
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 		
@@ -158,16 +218,18 @@ void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, i
 				if(aux == NULL)
 					escolhendo = 1;
 				else{
-					if(aux->simb == '*' || aux->simb == 'O')
+					if(aux->simb_ex == '*' || aux->simb_ex == 'O')
 						escolhendo = 1;
-					else if(aux->simb == ' '){
-						aux->simb = 'O';
+					else if(aux->simb_ex == ' '){
+						aux->simb_ex = 'O';
 						return;
 					}
 					else{
-						aux->simb = '*';
+						aux->simb_ex = '*';
+						*ver = 1;
 						*ant = aux;
-						return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+						printarTabuleiro(tabPlayer, tabBot);
+						return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 				
 					}
 				}
@@ -179,28 +241,30 @@ void jogada(coord* tabPlayer, coord* tabBot, int ver, coord** ant, int* pontP, i
 		
 			srand(time(NULL));
 			l = rand()%12;
-			j = rand()%12;
+			c = rand()%12;
 			
 			aux = tabPlayer;
 			escolhendo = 0;
 			
-			for(i = 0; i <= l, i++){
+			for(int i = 0; i <= l; i++){
 				aux = aux->s;
 				
-				for(j = 0; j <= c, j++)
+				for(int j = 0; j <= c; j++)
 					aux = aux->e;
 			}
 		
-			if(aux->simb == '*' || aux->simb == 'O')
+			if(aux->simb_ex == '*' || aux->simb_ex == 'O')
 				escolhendo = 1;
-			else if(aux->simb == ' '){
-				aux->simb = 'O';
+			else if(aux->simb_ex == ' '){
+				aux->simb_ex = 'O';
 				return;
 			}
 			else{
-				aux->simb = '*';
+				aux->simb_ex = '*';
+				*ver = 1;
 				*ant = aux;
-				verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB);
+				printarTabuleiro(tabPlayer, tabBot);
+				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
 	}

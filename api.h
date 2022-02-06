@@ -34,6 +34,8 @@ void jogadaBot(coord*, coord*, int*, coord**, int*, int*);
 
 void verificarJogada(coord*, coord*, coord*, coord*, int*, int*, int*);
 
-void revelarTab(coord* tabP);
+void revelarTab(coord*);
+
+void removerSub(coord*);
 
 #endif
