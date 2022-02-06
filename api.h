@@ -26,12 +26,14 @@ void printarTabuleiro(coord*, coord*);
 
 void PreencherTabuleiro(coord*);
 
-int input(coord*, coord*, int*, int*);
+int input(coord*, coord*, int*, int*, int*);
 
 void reset(coord*, coord*);
 
-void jogada(coord*, coord*,int, coord**, int*, int*);
+void jogadaBot(coord*, coord*, int*, coord**, int*, int*);
 
-void verificarJogada(coord*, coord*, coord*, coord*, int*, int*);
+void verificarJogada(coord*, coord*, coord*, coord*, int*, int*, int*);
+
+void revelarTab(coord* tabP);
 
 #endif
