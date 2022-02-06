@@ -236,7 +236,7 @@ void PreencherTabuleiro(coord* tab){
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
 			no->type = 'p';
-			no->ori = '0';
+			no->ori = 0;
 			if(i == 0){
 				no->simb = '<';
 			}
@@ -252,7 +252,7 @@ void PreencherTabuleiro(coord* tab){
 	else{
 		for(int i = 0; i < 5; i++){
 			no->type = 'p';
-			no->ori = '1';
+			no->ori = 1;
 			if(i == 0){
 				no->simb = '^';
 			}
@@ -319,7 +319,7 @@ void PreencherTabuleiro(coord* tab){
 		if(direction[j] == 0){
 			for(int i = 0; i < 3; i++){
 				no->type = 'd';
-				no->ori = '0';
+				no->ori = 0;
 				if(i == 0)
 					no->simb = '>';
 				else if(i < 2)
@@ -333,7 +333,7 @@ void PreencherTabuleiro(coord* tab){
 		else{
 			for(int i = 0; i < 3; i++){
 				no->type = 'd';
-				no->ori = '1';
+				no->ori = 1;
 				if(i == 0)
 					no->simb = 'v';
 				else if(i < 2)
@@ -401,7 +401,7 @@ void PreencherTabuleiro(coord* tab){
 		if(direction[j] == 0){
 			for(int i = 0; i < 2; i++){
 				no->type = 'f';
-				no->ori = '0';
+				no->ori = 0;
 				if(i == 0)
 					no->simb = '>';
 				else{
@@ -413,7 +413,7 @@ void PreencherTabuleiro(coord* tab){
 		else{
 			for(int i = 0; i < 2; i++){
 				no->type = 'f';
-				no->ori = '1';
+				no->ori = 1;
 				if(i == 0)
 					no->simb = 'v';
 				else{
