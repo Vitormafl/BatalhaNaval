@@ -564,7 +564,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				aux->simb_ex = aux->simb;
 				aux = aux->e;
 				
-				}while(aux->simb_ex != '>');
+				}while(aux->simb != '>');
 				*pontP += 1;
 
 			}
@@ -592,8 +592,9 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 					aux->simb_ex = aux->simb;
 					aux = acertoB->s;
 					
-				}while(aux->simb_ex!= 'v');
+				}while(aux->simb!= 'v');
 				*pontP += 1;
+				input(tabP, tabB, pontP, pontB);
 			}
 		}
 	}
