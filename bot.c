@@ -5,7 +5,7 @@
 //#include <dos.h> //Windows
 #include "api.h"
 
-/*	Algoritmo que decide a jogada do bot: 
+/*	Algoritmo que decide a jogada do bot:
 
 	tabPlayer = ponteiro para o tabuleiro do player.
 	tabBot = ponteiro para o tabuleiro do bot.
@@ -29,8 +29,6 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			srand(time(NULL));
 			l = rand()%12;
 			c = rand()%12;
-			
-			
 			
 			aux = tabPlayer;
 			escolhendo = 0;
@@ -56,7 +54,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->hit = 1;
 				*ver = 1;
 				*ant = aux;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -88,7 +86,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->w->hit = 1;
 				*ver = 1;
 				*ant = aux->w;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -114,7 +112,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->e->hit = 1;
 				*ver = 1;
 				*ant = aux->e;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -138,7 +136,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->n->hit = 1;
 				*ver = 1;
 				*ant = aux->n;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		
@@ -163,7 +161,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->s->hit = 1;
 				*ver = 1;
 				*ant = aux->s;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -197,7 +195,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->e->hit = 1;
 				*ver = 1;
 				*ant = aux->e;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -232,7 +230,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->w->hit = 1;
 				*ver = 1;
 				*ant = aux->w;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -265,7 +263,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->n->hit = 1;
 				*ver = 1;
 				*ant = aux->n;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -298,7 +296,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->s->hit = 1;
 				*ant = aux->s;
 				*ver = 1;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
@@ -336,7 +334,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 						aux->hit = 1;
 						*ver = 1;
 						*ant = aux;
-						printarTabuleiro(tabPlayer, tabBot);
+						printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 						return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 				
 					}
@@ -373,7 +371,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				aux->hit = 1;
 				*ver = 1;
 				*ant = aux;
-				printarTabuleiro(tabPlayer, tabBot);
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
