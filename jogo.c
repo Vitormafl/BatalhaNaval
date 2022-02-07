@@ -5,6 +5,7 @@
 //#include <dos.h> //Windows
 #include "api.h"
 
+//Remove um submarino do tabuleiro
 void removerSub(coord* tab){
     coord *no = tab;
     int par = 0; int cont = 0;
@@ -30,32 +31,18 @@ void removerSub(coord* tab){
             par = 0; cont += 1;
         }
     }
-	
-	
-	/*for(int l = 1; l <= 12 && no->type != 's'; l++){
-
-		no = tab;
-		
-		for(int l2 = 1; l2 < l && no->type != 's'; l2++){
-			
-			no = no->s;
-		}
-		for(int c = 1; c <= 12 && no->type != 's'; c++){
-		
-			if(c < 12)
-				no = no->e;
-		}		
-	}*/
     if (no->type == 's')
     {
         no->type = '0';
         no->simb = ' ';
         no->simb_ex = ' ';
+        no->hit = 0;
     }
 
     else return;
 }
 
+//Verifica qual navio foi atingido e se foi afundado
 void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, int* pontP, int* pontB, int* ver){
 
 	int afundado = 1;
@@ -63,20 +50,28 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	
 	//Verifica jogada do player
 	if(acertoB == NULL){
+	
 		aux = acertoP;
+		
+		//Se atingiu uma jangada
 		if(aux->type == 'j'){
 			aux->simb_ex = aux->simb;
 			*pontB += 1;
 			*ver = 0;
-			removerSub(tabP);
+			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
+			return removerSub(tabP);
 		}
+		
+		//Se atingiu um submarino
 		else if(aux->type == 's'){
 			aux->simb_ex = aux->simb;
 			*pontP += 1;
 			*ver = 0;
+			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			printarTabuleiro(tabP, tabB);
-			input(tabP, tabB, pontP, pontB, ver);
+			return input(tabP, tabB, pontP, pontB, ver);
 		}
+		
 		//Se acertou um navio horizontal
 		else if(aux->ori == 0){
 		
@@ -103,10 +98,11 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 						aux->simb_ex = aux->simb;
 				}
 				*pontP += 1;
-
+				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			}
+			
 			printarTabuleiro(tabP, tabB);
-			input(tabP, tabB, pontP, pontB, ver);
+			return input(tabP, tabB, pontP, pontB, ver);
 		}
 		//Se acertou um navio vertical
 		else{
@@ -135,10 +131,10 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 						aux->simb_ex = aux->simb;
 				}
 				*pontP += 1;
-				
+				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			}
 			printarTabuleiro(tabP, tabB);
-			input(tabP, tabB, pontP, pontB, ver);
+			return input(tabP, tabB, pontP, pontB, ver);
 		}
 	}
 	
@@ -147,19 +143,19 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	else{
 		aux = acertoB;
 		if(aux->type == 'j'){
-			printf(".\n");
-			*pontB += 1;
-			removerSub(tabB);
+			*pontP += 1;
+			*ver = 0;
+			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
+			return removerSub(tabB);
 		}
 		else if(aux->type == 's'){
-			printf("0\n");
 			*pontB += 1;
 			*ver = 0;
-			jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
+			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
+			return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 		//Se acertou um navio horizontal
-		if(aux->ori == 0){
-			printf("1\n");
+		else if(aux->ori == 0){
 			//1. Vai até a extremidade direita do navio
 			while(aux->simb != '>')
 				aux = aux->e;
@@ -173,21 +169,19 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 				if(aux->simb_ex != '*')
 					afundado = 0;
 			}
-			printf("afundado: %d\n", afundado);
 			//3. Caso afundou um navio do player, joga de novo aleatoriamente.
 			if(afundado){
 				*pontB += 1;
-				printf("A\n");
 				*ver = 0;
-				return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
+				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			}
 			//4. Caso não tenha afundado o navio do player, joga de novo tentando afundar.
-			jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
+			
+			return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 		
 		//Se acertou um navio vertical
 		else{
-			printf("3\n");
 			//1. 
 			while(aux->simb != 'v')
 				aux = aux->s;
@@ -203,17 +197,16 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 					afundado = 0;
 				
 			}
-			printf("afundado: %d\n", afundado);
 			//3.
 			if(afundado){
 			
-				printf("B\n");
 				*pontB += 1;
 				*ver = 0;
-				return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
+				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
+				
 			}
 			//4.
-			jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
+			return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 	}
 }
