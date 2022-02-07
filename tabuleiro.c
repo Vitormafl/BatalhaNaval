@@ -15,7 +15,7 @@ void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
 			
 			no = no->s;
 		}
-		
+		//Inicializa os nós do tabuleiro com os ponteiros para os outros nós, e com as outras características nulas
 		if(l == 0){
 			
 			no = (coord*)malloc(sizeof(coord));
@@ -142,6 +142,8 @@ void printarTabuleiro(coord* tabPlayer, coord* tabBot){
 	printf("   ABCDEFGHIJKL      ABCDEFGHIJKL \n");
 	printf("  +------------+    +------------+\n");
 	
+	//Printa os nós criados, de forma ordenada
+	
 	for(int l = 1; l <= 12; l++){
 
 		noP = tabPlayer;
@@ -208,12 +210,13 @@ void reset(coord* tabPlayer, coord* tabBot){
 	}
 }
 
-//INCOMPLETA
 void PreencherTabuleiro(coord* tab){
 
 	coord* no;
 	no = tab;
 
+	//Usamos 3 vetores para definir as coordenadas de cada barco de forma aleatória
+	
 	int linha_r[9], coluna_r[9], direction[9], aux = 0, j = 0;
 
 	srand(time(NULL));
@@ -221,6 +224,8 @@ void PreencherTabuleiro(coord* tab){
 	linha_r[j] = rand()%12;
 	coluna_r[j] = rand()%12;
 	direction[j] = rand()%2;
+	
+	//Verificamos se o barco foi inicializado de forma a sair do tabuleiro
 	
 	if(direction[j] == 0){
 		while(coluna_r[j] > 7)
@@ -232,12 +237,16 @@ void PreencherTabuleiro(coord* tab){
 		}
    	}
 	
+	//Percorremos os nós até chegar no primeiro nó do barco
+
    	for(int i = 0; i < coluna_r[j]; i++ ){
         	no = no->e;
     	}
     	for(int p = 0; p < linha_r[j]; p++ ){
        	no = no->s;
 	}
+	
+	//Dependendo da orientação do barco os nós são devidamente preenchidos e percorridos
 	
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
@@ -273,9 +282,13 @@ void PreencherTabuleiro(coord* tab){
 	}
 	j = j + 1;
 	
+	//Inicialização do segundo tipo de barco	
+
 	for(int l = 0; l < 2; l++){
 		while(aux == 0){
-		
+			
+			//Tudo é feito exatamente como o barco anterior...
+			
 			no = tab;
 			aux = 1;
 
@@ -293,6 +306,9 @@ void PreencherTabuleiro(coord* tab){
 			    	for(int k = 0; k < linha_r[j]; k++ ){
 			       	 no = no->s;	
 				}
+				
+			//A não ser nessa parte, onde é feita uma verificação para saber se os nós que serão habitados já estão ocupados
+				
 				for(int m = 0; m < 3; m ++){
 					if(no->type != '0')
 						aux = 0;
