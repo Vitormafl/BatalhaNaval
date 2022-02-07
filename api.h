@@ -38,7 +38,7 @@
 	
 	void iniciarTabuleiro(coord**, coord**);
 
-	void printarTabuleiro(coord*, coord*);
+	void printarTabuleiro(coord*, coord*, int, int);
 
 	void PreencherTabuleiro(coord*);
 	
