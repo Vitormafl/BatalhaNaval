@@ -58,7 +58,6 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 			aux->simb_ex = aux->simb;
 			*pontB += 1;
 			*ver = 0;
-			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			return removerSub(tabP);
 		}
 		
@@ -67,8 +66,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 			aux->simb_ex = aux->simb;
 			*pontP += 1;
 			*ver = 0;
-			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
-			printarTabuleiro(tabP, tabB);
+			printarTabuleiro(tabP, tabB, *pontP, *pontB);
 			return input(tabP, tabB, pontP, pontB, ver);
 		}
 		
@@ -98,10 +96,9 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 						aux->simb_ex = aux->simb;
 				}
 				*pontP += 1;
-				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			}
 			
-			printarTabuleiro(tabP, tabB);
+			printarTabuleiro(tabP, tabB, *pontP, *pontB);
 			return input(tabP, tabB, pontP, pontB, ver);
 		}
 		//Se acertou um navio vertical
@@ -130,10 +127,8 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 					if(aux->simb_ex != aux->simb)
 						aux->simb_ex = aux->simb;
 				}
-				*pontP += 1;
-				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			}
-			printarTabuleiro(tabP, tabB);
+			printarTabuleiro(tabP, tabB, *pontP, *pontB);
 			return input(tabP, tabB, pontP, pontB, ver);
 		}
 	}
@@ -145,13 +140,11 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 		if(aux->type == 'j'){
 			*pontP += 1;
 			*ver = 0;
-			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			return removerSub(tabB);
 		}
 		else if(aux->type == 's'){
 			*pontB += 1;
 			*ver = 0;
-			printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}
 		//Se acertou um navio horizontal
@@ -173,7 +166,6 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 			if(afundado){
 				*pontB += 1;
 				*ver = 0;
-				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 			}
 			//4. Caso não tenha afundado o navio do player, joga de novo tentando afundar.
 			
@@ -202,7 +194,6 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 			
 				*pontB += 1;
 				*ver = 0;
-				printf("Pontuação: Jogador - %d   Computador - %d\n", *pontP, *pontB);
 				
 			}
 			//4.
@@ -210,5 +201,3 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 		}
 	}
 }
-
-
