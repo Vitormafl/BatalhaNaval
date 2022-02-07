@@ -16,6 +16,7 @@ void iniciarTabuleiro(coord** tabPlayer, coord** tabBot){
 			no = no->s;
 		}
 		
+		//Printa os nós criados, de forma ordenada
 		if(l == 0){
 			
 			no = (coord*)malloc(sizeof(coord));
@@ -142,6 +143,7 @@ void printarTabuleiro(coord* tabPlayer, coord* tabBot){
 	printf("   ABCDEFGHIJKL      ABCDEFGHIJKL \n");
 	printf("  +------------+    +------------+\n");
 	
+	//Printa os nós criados, de forma ordenada
 	for(int l = 1; l <= 12; l++){
 
 		noP = tabPlayer;
@@ -215,7 +217,8 @@ void PreencherTabuleiro(coord* tab){
 
 	coord* no;
 	no = tab;
-
+	
+	//Usamos 3 vetores para definir as coordenadas de cada barco de forma aleatória
 	int linha_r[9], coluna_r[9], direction[9], aux = 0, j = 0;
 
 	srand(time(NULL));
@@ -224,6 +227,7 @@ void PreencherTabuleiro(coord* tab){
 	coluna_r[j] = rand()%12;
 	direction[j] = rand()%2;
 	
+	//Verificamos se o barco foi inicializado de forma a sair do tabuleiro
 	if(direction[j] == 0){
 		while(coluna_r[j] > 7)
 			coluna_r[j] = rand()%12;
@@ -234,6 +238,7 @@ void PreencherTabuleiro(coord* tab){
 		}
    	}
 	
+	//Percorremos os nós até chegar no primeiro nó do barco
    	for(int i = 0; i < coluna_r[j]; i++ ){
         	no = no->e;
     	}
@@ -241,6 +246,7 @@ void PreencherTabuleiro(coord* tab){
        	no = no->s;
 	}
 	
+	//Dependendo da orientação do barco os nós são devidamente preenchidos e percorridos
 	if(direction[j] == 0){
 		for(int i = 0; i < 5; i++){
 			no->type = 'p';
@@ -275,6 +281,7 @@ void PreencherTabuleiro(coord* tab){
 	}
 	j = j + 1;
 	
+	//Inicialização do segundo tipo de barco
 	for(int l = 0; l < 2; l++){
 		while(aux == 0){
 		
@@ -284,7 +291,8 @@ void PreencherTabuleiro(coord* tab){
 			linha_r[j] = rand()%12;
 			coluna_r[j] = rand()%12;
 			direction[j] = rand()%2;
-		
+			
+			//Tudo é feito exatamente como o barco anterior...
 			if(direction[j] == 0){
 				while(coluna_r[j] > 9){
 					coluna_r[j] = rand()%12;
@@ -295,6 +303,8 @@ void PreencherTabuleiro(coord* tab){
 			    	for(int k = 0; k < linha_r[j]; k++ ){
 			       	 no = no->s;	
 				}
+				
+				//A não ser nessa parte, onde é feita uma verificação para saber se os nós que serão habitados já estão ocupados
 				for(int m = 0; m < 3; m ++){
 					if(no->type != '0')
 						aux = 0;
@@ -471,6 +481,7 @@ void PreencherTabuleiro(coord* tab){
 	no->simb = '&';	
 }
 
+//Revela os navios de um tabuleiro (usada para tornar o tabuleiro do player visível para ele)
 void revelarTab(coord* tabP){
 
 	coord* noP = tabP;
