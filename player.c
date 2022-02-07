@@ -17,7 +17,7 @@ void input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 		int cont = 1;
 		coord* noh = tabB;
 
-		printf("Insira a coordenada: \n");
+		printf("\nInsira a coordenada: ");
 		scanf(" %s", input);
 	
 		//loop for avalia cada um dos caracteres inseridos em input
