@@ -5,7 +5,7 @@
 //#include <dos.h> //Windows
 #include "api.h"
 
-/*	Algoritmo que decide a jogada do bot:
+/*	Algoritmo que decide a jogada do bot: 
 
 	tabPlayer = ponteiro para o tabuleiro do player.
 	tabBot = ponteiro para o tabuleiro do bot.
