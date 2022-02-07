@@ -211,25 +211,4 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 	}
 }
 
-//Para testes
-int main(){
-	
-	int pontP = 0, pontB = 0, ver = 0;
-	coord* ant = NULL;
-	char aaaa[100];
-	coord *tabP = NULL; 
-	coord *tabB = NULL;
-	iniciarTabuleiro(&tabP, &tabB);
-	PreencherTabuleiro(tabP);
-	sleep(1);
-	PreencherTabuleiro(tabB);
-	revelarTab(tabB);
-	printarTabuleiro(tabP, tabB);
-	for(;;){
-		//input(tabP, tabB, &pontP, &pontB, &ver);
-		jogadaBot(tabP, tabB, &ver, &ant, &pontP, &pontB);
-		printf("Pontuação: Jogador - %d   Computador - %d\n", pontP, pontB);
-		printarTabuleiro(tabP, tabB);
-		scanf("%s", aaaa);
-	}
-}
+
