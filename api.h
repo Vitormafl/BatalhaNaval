@@ -8,34 +8,50 @@
 		struct _coord *s;
 		struct _coord *e;
 		struct _coord *w;
+		
+		//	Armazena os símbolos das embarcações
 		char simb;
+		
+		//	Símbolo exibido no printarTabuleiro
 		char simb_ex;
+		
 		char type;
-		/*	'p' - Porta-aviões
+		/*	'0' - Água
+			'p' - Porta-aviões
 			'd' - Destroyer
 			'f' - Fragata
 			's' - Submarino
 			'j' - jangada		*/
-		int ori; 	//0 = Horizontal | 1 = Vertical
+		int ori; 	
+		//	0 = Horizontal | 1 = Vertical
+		int hit;
 	
 	} coord;
 
-void iniciarTabuleiro(coord**, coord**);
+//Funções de jogo.c
 
-void printarTabuleiro(coord*, coord*);
+	void removerSub(coord*);
+	
+	void verificarJogada(coord*, coord*, coord*, coord*, int*, int*, int*);
 
-void PreencherTabuleiro(coord*);
+//Funções de tabuleiro.c
+	
+	void iniciarTabuleiro(coord**, coord**);
 
-int input(coord*, coord*, int*, int*, int*);
+	void printarTabuleiro(coord*, coord*);
 
-void reset(coord*, coord*);
+	void PreencherTabuleiro(coord*);
+	
+	void reset(coord*, coord*);
+	
+	void revelarTab(coord*);
 
-void jogadaBot(coord*, coord*, int*, coord**, int*, int*);
+//Função do player.c
 
-void verificarJogada(coord*, coord*, coord*, coord*, int*, int*, int*);
+	void input(coord*, coord*, int*, int*, int*);
 
-void revelarTab(coord*);
+//Função do bot.c
 
-void removerSub(coord*);
+	void jogadaBot(coord*, coord*, int*, coord**, int*, int*);
 
 #endif
