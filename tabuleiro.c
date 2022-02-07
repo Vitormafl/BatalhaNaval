@@ -212,9 +212,11 @@ void reset(coord* tabPlayer, coord* tabBot){
 	}
 }
 
-//INCOMPLETA
+//Função que preenche o tabuleiro com os navios de forma aleatória
 void PreencherTabuleiro(coord* tab){
-
+	
+	//Preenchemos os barcos do maior para o menor
+	
 	coord* no;
 	no = tab;
 	
@@ -281,7 +283,7 @@ void PreencherTabuleiro(coord* tab){
 	}
 	j = j + 1;
 	
-	//Inicialização do segundo tipo de barco
+	//Inicialização dos destroyers
 	for(int l = 0; l < 2; l++){
 		while(aux == 0){
 		
@@ -365,6 +367,12 @@ void PreencherTabuleiro(coord* tab){
 		aux = 0;
 	}
 	
+	//Inicialização das fragatas
+	//A partir dos destroyers todos os navios usam o exato mesmo processo para serem inseridos no tabuleiro, que consiste em:
+	//- Gerar valores aleatorios que caibam no tabuleiro
+	//- Verificar se alguma das casas que será ocupada já está ocupada
+	//- Preencher os nós com as características específicas de cada navio
+	
 	for(int l = 0; l < 3; l++){
 		while(aux == 0){
 		
@@ -439,6 +447,9 @@ void PreencherTabuleiro(coord* tab){
 		j = j + 1;
 		aux = 0;
 	}
+	
+	//Inicialização dos submarinos
+	
 	for(int l = 0; l < 2; l++){
 		while(aux == 0){
 		
@@ -462,7 +473,10 @@ void PreencherTabuleiro(coord* tab){
 		
 		j = j + 1;
 		aux = 0; 	
-		}
+	}
+	
+	//Inicialização das jangadas
+
 	while(aux == 0){
 		no = tab;
 		aux = 1;
