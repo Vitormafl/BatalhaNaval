@@ -17,6 +17,7 @@ void input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 		int cont = 1;
 		coord* noh = tabB;
 
+		printf("Insira a coordenada: \n");
 		scanf(" %s", input);
 	
 		//loop for avalia cada um dos caracteres inseridos em input
@@ -46,12 +47,12 @@ void input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 			}
 		}
 		
-		//caso inválido 1
+		//caso o valor das colunas seja inválido
 		if(coordenadas[0] < 1 || coordenadas[0] > 12){
 			printf("Jogada inválida!\n");
 			continue;
 		}
-		//caso inválido 2
+		//caso o valor das linhas seja inválido
 		if(coordenadas[1] < 1 || coordenadas[1] > 12){
 			printf("Jogada inválida!\n");
 			continue;
@@ -81,7 +82,7 @@ void input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 			noh->simb_ex = 'O';
 			noh->hit = 1;
 		}
-		//caso inválido 3
+		//caso a coordenada seja inválida.
 		else{
 			printf("Jogada inválida!\n");
 			continue;
