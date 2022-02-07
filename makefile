@@ -1,4 +1,4 @@
-all: jogo
+all: jogo 
 
 jogo: tabuleiro.o player.o bot.o jogo.o
 	gcc tabuleiro.o player.o bot.o jogo.o -o jogo
