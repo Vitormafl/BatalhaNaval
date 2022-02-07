@@ -127,6 +127,7 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 					if(aux->simb_ex != aux->simb)
 						aux->simb_ex = aux->simb;
 				}
+				*pontP += 1;
 			}
 			printarTabuleiro(tabP, tabB, *pontP, *pontB);
 			return input(tabP, tabB, pontP, pontB, ver);
@@ -194,8 +195,8 @@ void verificarJogada(coord* tabP, coord* tabB, coord* acertoP, coord* acertoB, i
 			
 				*pontB += 1;
 				*ver = 0;
-				
 			}
+			
 			//4.
 			return jogadaBot(tabP, tabB, ver, &acertoB, pontP, pontB);
 		}

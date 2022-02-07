@@ -42,7 +42,7 @@
 
 	void PreencherTabuleiro(coord*);
 	
-	void reset(coord*, coord*);
+	void reset(coord*, coord*, int*, int*);
 	
 	void revelarTab(coord*);
 

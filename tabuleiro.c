@@ -173,11 +173,11 @@ void printarTabuleiro(coord* tabPlayer, coord* tabBot, int pontP, int pontB){
 	}
 	printf("  +------------+    +------------+\n\n");
 	printf("              Placar:             \n");
-	printf("     Humano: %d        Computador %d \n", pontP, pontB);
+	printf("    Humano: %d        Computador %d \n", pontP, pontB);
 }
 
 //Itera pelos tabuleiros e reinicia os símbolos e embarcações
-void reset(coord* tabPlayer, coord* tabBot){
+void reset(coord* tabPlayer, coord* tabBot, int* pontP, int* pontB){
 
 	coord* noP;
 	coord* noB;
@@ -196,7 +196,7 @@ void reset(coord* tabPlayer, coord* tabBot){
 		
 			noP->simb = ' ';
 			noP->simb_ex = ' ';
-			noP->type = 0;
+			noP->type = '0';
 			noP->hit = 0;
 			if(c < 12)
 				noP = noP->e;
@@ -205,13 +205,15 @@ void reset(coord* tabPlayer, coord* tabBot){
 		
 			noB->simb = ' ';
 			noB->simb_ex = ' ';
-			noB->type = 0;
-			noP->hit = 0;
+			noB->type = '0';
+			noB->hit = 0;
 			if(c2 < 12)
 				noB = noB->e;
 		}
 		
 	}
+	*pontP = 0;
+	*pontB = 0;
 }
 
 //INCOMPLETA
@@ -488,19 +490,21 @@ void revelarTab(coord* tabP){
 
 	coord* noP = tabP;
 	
-	for(int l = 1; l <= 12; l++){
+	if(noP != NULL){
+		for(int l = 1; l <= 12; l++){
 
-		noP = tabP;
+			noP = tabP;
 		
-		for(int l2 = 1; l2 < l; l2++){
+			for(int l2 = 1; l2 < l; l2++){
 		
-			noP = noP->s;
-		}
-		for(int c = 1; c <= 12; c++){
+				noP = noP->s;
+			}
+			for(int c = 1; c <= 12; c++){
 			
-			noP->simb_ex = noP->simb;
-			if(c < 12)
-				noP = noP->e;
+				noP->simb_ex = noP->simb;
+				if(c < 12)
+					noP = noP->e;
+			}
 		}
 	}
 }

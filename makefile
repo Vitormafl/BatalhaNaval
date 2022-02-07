@@ -1,8 +1,11 @@
-all: jogo 
+all: main
 
-jogo: tabuleiro.o player.o bot.o jogo.o
-	gcc tabuleiro.o player.o bot.o jogo.o -o jogo
+main: tabuleiro.o player.o bot.o jogo.o main.o
+	gcc tabuleiro.o player.o bot.o jogo.o main.o -o main
 	make clean
+
+main.o: main.c
+	gcc -c main.c
 
 tabuleiro.o: tabuleiro.c
 	gcc -c tabuleiro.c

@@ -16,7 +16,8 @@
 	pontB = ponteiro para o valor da pontuação do bot.					
 												*/
 void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pontP, int* pontB){
-
+	
+	printf("\nVez da máquina:\n");
 	coord *aux;
 	
 	int l, c, escolhendo = 1, escolha;
@@ -46,6 +47,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			else if(aux->simb_ex == ' '){
 				aux->simb_ex = 'O';
 				aux->hit = 1;
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return;
 			}
 			else{	
@@ -188,6 +190,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			else if(aux->e->simb_ex == ' '){
 				aux->e->simb_ex = 'O';
 				aux->hit = 1;
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return;
 			}
 			else{
@@ -223,6 +226,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				else if(aux->w->simb_ex == ' '){
 					aux->w->simb_ex = 'O';
 					aux->hit = 1;
+					printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return;
 				}
 			else{
@@ -234,14 +238,14 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 				return verificarJogada(tabPlayer, tabBot, NULL, *ant, pontP, pontB, ver);
 			}
 		}
-		
 			
 /* 3.		 
+		  <-- Caso não nulo e não atingido, atira aqui
+		 *
 		 *<
 		 *<-- Último tiro em qualquer uma destas posições
 		 *<
-		 *
-		  <-- Caso não nulo e não atingido, atira aqui		*/
+		  								*/
 		else if(aux->n != NULL && aux->n->simb_ex == '*'){
 		
 			while(aux->n != NULL && aux->n->simb_ex == '*')
@@ -256,6 +260,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			else if(aux->n->simb_ex == ' '){
 				aux->n->simb_ex = 'O';
 				aux->hit = 1;
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return;
 			}
 			else{
@@ -268,13 +273,12 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			}
 		}
 		
-/* 3.		 
-		  <-- Caso não nulo e não atingido, atira aqui
-		 *
+/* 4.		 
 		 *<
 		 *<-- Último tiro em qualquer uma destas posições
 		 *<
-		  								*/
+		 *
+		  <-- Caso não nulo e não atingido, atira aqui		*/
 		else if(aux->s != NULL && aux->s->simb_ex == '*'){
 		
 			while(aux->s != NULL && aux->s->simb_ex == '*')
@@ -289,6 +293,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			else if(aux->s->simb_ex == ' '){
 				aux->s->simb_ex = 'O';
 				aux->hit = 1;
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return;
 			}
 			else{
@@ -327,6 +332,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 					else if(aux->simb_ex == ' '){
 						aux->simb_ex = 'O';
 						aux->hit = 1;
+						printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 						return;
 					}
 					else{
@@ -364,6 +370,7 @@ void jogadaBot(coord* tabPlayer, coord* tabBot, int* ver, coord** ant, int* pont
 			else if(aux->simb_ex == ' '){
 				aux->hit = 1;
 				aux->simb_ex = 'O';
+				printarTabuleiro(tabPlayer, tabBot, *pontP, *pontB);
 				return;
 			}
 			else{

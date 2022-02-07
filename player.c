@@ -75,12 +75,14 @@ void input(coord* tabP, coord* tabB, int* pontP, int* pontB, int* ver)
 
 			noh->simb_ex = '*';
 			noh->hit = 1;
+			printarTabuleiro(tabP, tabB, *pontP, *pontB);
 			verificarJogada(tabP, tabB, noh, NULL, pontP, pontB, ver);
 		}
 	
 		else if (noh->hit == 0){
 			noh->simb_ex = 'O';
 			noh->hit = 1;
+			printarTabuleiro(tabP, tabB, *pontP,* pontB);
 		}
 		//caso a coordenada seja inválida.
 		else{
