@@ -1,3 +1,34 @@
+/*	
+	Alunos da equipe:
+	
+	Guilherme de Menezes Furtado - 509805
+		- verificarJogada()		
+		- iniciarTabuleiro()		
+		- printarTabuleiro()		
+		- revelarTab()			
+		- removerSub()			
+		- jogadaBot()
+		- reset()
+		
+	Nicolas Duarte - 508719
+		- input()			
+		- removerSub()
+		- jogadaBot()			
+		
+	Vitor Manoel - 511799
+	
+		- PreencherTabuleiro()		
+		- main()
+		- structs dos nós		
+		
+	Victor Martins - 401339
+		- printarTabuleiro()
+		- main()
+		- revelarTab()
+		- Gravação e edição do vídeo
+		
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -42,5 +73,4 @@ int main(){
 		if(iniciar_jogo == 1) reset(tabP, tabB, &pontP, &pontP);
 	}
 }
-
 
